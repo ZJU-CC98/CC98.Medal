@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CC98.Medal.Data;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,6 +40,11 @@ namespace CC98.Medal
 		[UsedImplicitly]
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddDbContext<CC98MedalDbContext>(options =>
+				{
+					options.UseSqlServer(Configuration.GetConnectionString("CC98-Medal"));
+				});
+
 			services.AddControllersWithViews();
 		}
 
