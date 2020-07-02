@@ -1,0 +1,23 @@
+﻿@model Medal
+@{
+	ViewBag.Title = "创建勋章";
+}
+
+<form asp-controller="Medal" asp-action="Create" method="post" asp-antiforgery="true">
+
+	<div class="row justify-content-center">
+
+		<div class="col-12 col-sm-9 col-md-6">
+
+			<div class="form-group">
+				<label asp-for="Name"></label>
+				<input type="text" asp-for="Name" class="form-control" />
+				<small class="form-text text-muted">勋章名称，将会显示在勋章的展示界面。</small>
+				<span class="text-danger" asp-validation-for="Name"></span>
+			</div>
+
+		</div>
+
+	</div>
+
+</form>

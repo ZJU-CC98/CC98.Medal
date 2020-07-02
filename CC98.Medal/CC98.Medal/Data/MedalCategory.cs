@@ -8,6 +8,7 @@ namespace CC98.Medal.Data
 	/// <summary>
 	/// 定义勋章的类别。
 	/// </summary>
+	// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
 	public class MedalCategory
 	{
 		/// <summary>
@@ -31,12 +32,35 @@ namespace CC98.Medal.Data
 		/// 获取或设置该类别包含的下级类别的集合。
 		/// </summary>
 		[InverseProperty(nameof(Parent))]
-		public IList<MedalCategory> Children { get; set; } = new Collection<MedalCategory>();
+		public virtual IList<MedalCategory> Children { get; set; } = new Collection<MedalCategory>();
 
 		/// <summary>
 		/// 获取或设置该类别包含的勋章的集合。
 		/// </summary>
 		[InverseProperty(nameof(Medal.Category))]
-		public IList<Medal> Medals { get; set; } = new Collection<Medal>();
+		public virtual IList<Medal> Medals { get; set; } = new Collection<Medal>();
+
+		/// <summary>
+		/// 获取或设置勋章分类的名称。
+		/// </summary>
+		[StringLength(100)]
+		[Required]
+		public string Name { get; set; }
+
+		/// <summary>
+		/// 获取或设置勋章分类的描述。
+		/// </summary>
+		public string? Description { get; set; }
+
+		/// <summary>
+		/// 获取或设置勋章分类的图标。
+		/// </summary>
+		[DataType(DataType.ImageUrl)]
+		public string? IconUri { get; set; }
+
+		/// <summary>
+		/// 排序顺序。更小的数字排序在更前面。
+		/// </summary>
+		public int SortOrder { get; set; }
 	}
 }

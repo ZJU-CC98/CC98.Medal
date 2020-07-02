@@ -2,11 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using CC98.Authentication.OpenIdConnect;
 using CC98.Medal.Data;
+
+using IdentityModel;
+
 using JetBrains.Annotations;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,6 +54,45 @@ namespace CC98.Medal
 				});
 
 			services.AddControllersWithViews();
+
+			services.AddAuthentication(IdentityConstants.ApplicationScheme)
+				.AddCookie(IdentityConstants.ApplicationScheme, options =>
+				{
+					options.LoginPath = "/Account/LogOn";
+					options.LogoutPath = "/Account/LogOff";
+					options.AccessDeniedPath = "/Home/AccessDenied";
+
+					options.Cookie.HttpOnly = true;
+					options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+					options.Cookie.SameSite = SameSiteMode.Lax;
+				})
+				.AddCookie(IdentityConstants.ExternalScheme)
+				.AddCC98(CC98Defaults.AuthenticationScheme, options =>
+				{
+					options.ClientId = Configuration["Authentication:CC98:ClientId"];
+					options.ClientSecret = Configuration["Authentication:CC98:ClientSecret"];
+					options.Authority = Configuration["Authentication:CC98:Authority"];
+					options.CallbackPath = Configuration["Authentication:CC98:CallbackPath"];
+
+					options.ResponseType = OidcConstants.ResponseTypes.CodeIdTokenToken;
+					options.SignInScheme = IdentityConstants.ExternalScheme;
+				});
+
+			// ²ßÂÔ¶¨Òå
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(Policies.Admin, builder => builder.RequireRole(Policies.Roles.GeneralAdministrators, Policies.Roles.MedalAdministrators));
+
+				options.AddPolicy(Policies.Issue,
+					builder => builder.RequireRole(Policies.Roles.GeneralAdministrators,
+						Policies.Roles.MedalAdministrators, Policies.Roles.MedalOperators));
+
+				options.AddPolicy(Policies.Review, builder => builder.RequireRole(Policies.Roles.GeneralAdministrators, Policies.Roles.MedalAdministrators, Policies.Roles.MedalOperators, Policies.Roles.MedalReviewers));
+
+				options.AddPolicy(Policies.Edit, builder => builder.RequireRole(Policies.Roles.GeneralAdministrators, Policies.Roles.MedalAdministrators, Policies.Roles.MedalOperators, Policies.Roles.MedalEditors));
+			});
+
+			services.AddExternalSignInManager();
 		}
 
 		/// <summary>
@@ -71,6 +118,7 @@ namespace CC98.Medal
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>

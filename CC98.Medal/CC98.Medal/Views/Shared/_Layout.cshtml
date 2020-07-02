@@ -9,6 +9,7 @@
 	<environment include="@Environments.Development">
 		<link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
 		<link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+		<link rel="stylesheet" href="~/lib/bstreeview/css/bstreeview.min.css" />
 		<link rel="stylesheet" href="~/css/site.css" />
 	</environment>
 
@@ -32,32 +33,42 @@
 			  asp-fallback-test-value="absolute"
 			  asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css" />
 
+		<link rel="stylesheet" href="~/lib/bstreeview/css/bstreeview.min.css" />
 
 		<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 
 	</environment>
+
+
 
 	@await RenderSectionAsync("Head", false)
 
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+		<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
 			<div class="container">
-				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CC98.Medal</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CC98 勋章系统</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar-collapse" aria-controls="main-navbar-collapse"
 						aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-					<ul class="navbar-nav flex-grow-1">
+				<div id="main-navbar-collapse" class="navbar-collapse collapse">
+					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+							<a class="nav-link text-dark" asp-controller="Home" asp-action="Index">勋章列表</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="manage-navbar-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								管理
+							</a>
+							<div class="dropdown-menu" aria-labelledby="manage-navbar-dropdown">
+								<a class="dropdown-item" href="#">勋章分类</a>
+							</div>
 						</li>
 					</ul>
+					<partial name="_LogOnPartial" />
 				</div>
 			</div>
 		</nav>
@@ -78,6 +89,7 @@
 		<script src="~/lib/jquery/jquery.js"></script>
 		<script src="~/lib/popper.js/umd/popper.js"></script>
 		<script src="~/lib/bootstrap/js/bootstrap.js"></script>
+		<script src="~/lib/bstreeview/js/bstreeview.min.js"></script>
 		<script src="~/js/site.js"></script>
 	</environment>
 
@@ -100,6 +112,8 @@
 				crossorigin="anonymous"
 				asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
 				asp-fallback-src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+
+		<script src="~/lib/bstreeview/js/bstreeview.min.js"></script>
 
 		<script src="~/js/site.min.js" asp-append-version="true"></script>
 

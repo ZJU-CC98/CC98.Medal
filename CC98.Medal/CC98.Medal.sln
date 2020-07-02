@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC98.Medal", "CC98.Medal\CC98.Medal.csproj", "{9EF08204-D6F0-4F5C-9B3E-C36560513E07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CC98.Medal", "CC98.Medal\CC98.Medal.csproj", "{9EF08204-D6F0-4F5C-9B3E-C36560513E07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15F6E1C2-05D2-41B7-9D50-46B62D7772A3}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

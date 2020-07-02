@@ -1,0 +1,46 @@
+﻿@using System.Text.Json
+@using JetBrains.Annotations
+@model IEnumerable<MedalCategory>
+@{
+	var selectedCategoryId = (int?)ViewBag.SelectedCategoryId;
+	var linkGenerator = (Func<MedalCategory, string>)ViewBag.LinkGenerator;
+	var jsModel = ConvertModelToJSModels(Model, selectedCategoryId, linkGenerator);
+}
+
+@functions
+{
+	/// <summary>
+	/// 将数据模型数组转换为 JS 需要使用的模型结构数组。
+	/// </summary>
+	/// <param name="items">要转换的对象的数组。</param>
+	/// <param name="selectedCategoryId">用于判断当前项目是否是被选中项目。</param>
+	/// <param name="linkGenerator">链接生成器。</param>
+	/// <returns>转换后的结果。</returns>
+	MedalCategoryTreeViewModel[] ConvertModelToJSModels(IEnumerable<MedalCategory> items, int? selectedCategoryId, [CanBeNull] Func<MedalCategory, string> linkGenerator)
+	{
+		return (from i in items
+				orderby i.SortOrder
+				select ConvertModelToJSModel(i, selectedCategoryId, linkGenerator)).ToArray();
+	}
+
+	/// <summary>
+	/// 将数据模型转换为 JS 需要使用的模型结构。
+	/// </summary>
+	/// <param name="item">要转换的对象。</param>
+	/// <param name="selectedCategoryId">用于判断当前项目是否是被选中项目。</param>
+	/// <param name="linkGenerator">链接生成器。</param>
+	/// <returns>转换后的结果。</returns>
+	MedalCategoryTreeViewModel ConvertModelToJSModel(MedalCategory item, int? selectedCategoryId, [CanBeNull] Func<MedalCategory, string> linkGenerator)
+	{
+		return new MedalCategoryTreeViewModel
+		{
+			Text = item.Name,
+			Id = item.Id.ToString("D"),
+			CssClass = item.Id == selectedCategoryId ? "active" : null,
+			Children = ConvertModelToJSModels(item.Children, selectedCategoryId, linkGenerator),
+			LinkUri = linkGenerator?.Invoke(item),
+		};
+	}
+}
+
+<div id="medal-category-tree" class="tree-view" data-tree-view-data="@JsonSerializer.Serialize(jsModel)"></div>

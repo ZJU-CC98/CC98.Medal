@@ -1,13 +1,37 @@
 ﻿@model Sakura.AspNetCore.IPagedList<Medal>
 @{
+	var categoryId = (int?)ViewBag.CategoryId;
+}
 
+@functions
+{
+	string GenerateCategoryLink(MedalCategory item) => Url.Action("Index", "Medal", new { categoryId = item.Id });
 }
 
 <div class="row">
 	<div class="col-3">
-
+		<vc:medal-category-list selected-category-id="@categoryId" link-generator="@GenerateCategoryLink" />
 	</div>
 	<div class="col-9">
+
+		<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6">
+			@foreach (var item in Model)
+			{
+				<div class="col mb-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<div class="media">
+								<img class="" src="@Url.Content(item.ImageUri)" alt="勋章图案" />
+								<div class="media-body">
+									<h5 class="mt-0">@item.Name</h5>
+									<p>@item.Description</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
 
 	</div>
 </div>
