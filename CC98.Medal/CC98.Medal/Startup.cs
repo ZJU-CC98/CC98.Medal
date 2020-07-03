@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,7 +56,11 @@ namespace CC98.Medal
 					options.UseSqlServer(Configuration.GetConnectionString("CC98-Medal"));
 				});
 
-			services.AddControllersWithViews();
+			services.AddControllersWithViews()
+				.AddRazorRuntimeCompilation()
+				.AddMvcLocalization(options => options.ResourcesPath = "Resources")
+				.AddDataAnnotationsLocalization()
+				.AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder);
 
 			services.AddAuthentication(IdentityConstants.ApplicationScheme)
 				.AddCookie(IdentityConstants.ApplicationScheme, options =>
@@ -120,6 +127,14 @@ namespace CC98.Medal
 
 			app.UseAuthentication();
 			app.UseAuthorization();
+
+			app.UseRequestLocalization(options =>
+			{
+				options.DefaultRequestCulture = new RequestCulture("zh-CN", "zh-CN");
+
+				options.AddSupportedCultures("zh-CN-Hans", "zh-CN", "zh-Hans", "zh");
+				options.AddSupportedUICultures("zh-CN-Hans", "zh-CN", "zh-Hans", "zh");
+			});
 
 			app.UseEndpoints(endpoints =>
 			{

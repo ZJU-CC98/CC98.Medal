@@ -1,0 +1,7 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Medal
+@inject IViewLocalizer ViewLocalizer
+@{
+	ViewBag.Title = ViewLocalizer["勋章详情 - {0}", Model.Name];
+}
+

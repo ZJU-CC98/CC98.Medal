@@ -9,12 +9,12 @@
 
 		<div class="col-12 col-sm-9 col-md-6">
 
-			<div class="form-group">
-				<label asp-for="Name"></label>
-				<input type="text" asp-for="Name" class="form-control" />
-				<small class="form-text text-muted">勋章名称，将会显示在勋章的展示界面。</small>
-				<span class="text-danger" asp-validation-for="Name"></span>
-			</div>
+			<partial name="_EditPartial" />
+
+			<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+			<button type="submit" class="btn btn-primary">创建勋章</button>
+			<button type="reset" class="btn btn-outline-secondary">清空内容</button>
 
 		</div>
 

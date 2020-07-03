@@ -56,7 +56,7 @@
 				<div id="main-navbar-collapse" class="navbar-collapse collapse">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-controller="Home" asp-action="Index">勋章列表</a>
+							<a class="nav-link text-dark" asp-controller="Medal" asp-action="Index">勋章列表</a>
 						</li>
 
 						<li class="nav-item dropdown">
@@ -64,7 +64,7 @@
 								管理
 							</a>
 							<div class="dropdown-menu" aria-labelledby="manage-navbar-dropdown">
-								<a class="dropdown-item" href="#">勋章分类</a>
+								<a class="dropdown-item" asp-controller="Medal" asp-action="Manage" asp-authorize-policy="@Policies.Edit">勋章</a>
 							</div>
 						</li>
 					</ul>

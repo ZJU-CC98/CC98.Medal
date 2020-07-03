@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Medal
+@inject IViewLocalizer ViewLocalizer
+@{
+	ViewBag.Title = ViewLocalizer["编辑勋章 - {0}", Model.Name];
+}
+
+<form asp-controller="Medal" asp-action="Edit" method="post" asp-antiforgery="true">
+
+	<div class="row justify-content-center">
+		<div class="col-12 col-sm-9 col-md-6">
+
+			<partial name="_EditPartial" />
+
+			<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+			<button type="submit" class="btn btn-primary">修改勋章</button>
+			<button type="reset" class="btn btn-outline-secondary">撤销更改</button>
+
+
+		</div>
+	</div>
+
+</form>

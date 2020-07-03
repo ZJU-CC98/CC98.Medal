@@ -1,0 +1,8 @@
+﻿@model IEnumerable<MedalCategory>
+@{
+	var aspFor = (ModelExpression)ViewBag.AspFor;
+	var selectList = new SelectList(Model, nameof(MedalCategory.Id), nameof(MedalCategory.Name), aspFor.Model);
+}
+
+<select name="@aspFor.Name" asp-items="@selectList" class="form-control">
+</select>

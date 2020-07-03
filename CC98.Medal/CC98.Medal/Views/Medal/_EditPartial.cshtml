@@ -1,0 +1,90 @@
+﻿@model Medal
+
+<div class="card mb-3">
+	<div class="card-header">基本设置</div>
+	<div class="card-body">
+		<div class="form-group">
+			<label asp-for="Name"></label>
+			<input type="text" asp-for="Name" class="form-control" />
+			<small class="form-text text-muted">勋章名称，将会显示在勋章的展示界面。</small>
+			<span class="text-danger" asp-validation-for="Name"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Description"></label>
+			<textarea asp-for="Description" rows="3" class="form-control"></textarea>
+			<small class="form-text text-muted">勋章的描述，将会显示在勋章的展示页面。</small>
+			<span class="text-danger" asp-validation-for="Description"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="CategoryId"></label>
+			<vc:medal-category-selector asp-for="CategoryId" />
+			<small class="form-text text-muted">勋章的分类。用于便于用户检索勋章。</small>
+			<span class="text-danger" asp-validation-for="CategoryId"></span>
+		</div>
+
+
+		<div class="form-group">
+			<label asp-for="ImageUri"></label>
+			<input type="url" asp-for="ImageUri" class="form-control" />
+			<small class="form-text text-muted">勋章的图案。</small>
+			<span class="text-danger" asp-validation-for="ImageUri"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="LinkUri"></label>
+			<input type="url" asp-for="LinkUri" class="form-control" />
+			<small class="form-text text-muted">勋章的链接地址。当用户点击勋章时将会调转到该地址。如将该地址留空，则默认跳转到勋章系统。</small>
+			<span class="text-danger" asp-validation-for="LinkUri"></span>
+		</div>
+	</div>
+
+</div>
+
+<div class="card mb-3">
+	<div class="card-header">功能设置</div>
+	<div class="card-body">
+
+		<div class="form-group">
+			<label asp-for="State"></label>
+			<select asp-enum-for="State" asp-text-source="Name" class="form-control"></select>
+			<small class="form-text text-muted">勋章的状态。这将定义用户是否能看到勋章。</small>
+			<span class="text-danger" asp-validation-for="Name"></span>
+		</div>
+
+		<hr />
+
+		<div class="form-group">
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="checkbox" asp-for="HideOwners" class="form-check-input" /> 隐藏勋章拥有者列表
+				</label>
+			</div>
+			<small class="form-text text-muted">如果选中该复选框。则普通用户将不能看到这个勋章现在拥有的用户列表。这个功能不影响管理员，也不影响勋章的其它功能。</small>
+			<span class="text-danger" asp-validation-for="HideOwners"></span>
+		</div>
+
+		<div class="form-group">
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="checkbox" asp-for="CanApply" class="form-check-input" /> 允许申请勋章
+				</label>
+			</div>
+			<small class="form-text text-muted">如果选中该复选框。则允许用户申请勋章，勋章审核员可以随后决定是否授予勋章。</small>
+			<span class="text-danger" asp-validation-for="HideOwners"></span>
+		</div>
+
+
+		<div class="form-group">
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="checkbox" asp-for="CanBuy" class="form-check-input" /> 允许购买勋章
+				</label>
+			</div>
+			<small class="form-text text-muted">如果选中该复选框，则允许用户自助购买勋章。</small>
+			<span class="text-danger" asp-validation-for="HideOwners"></span>
+		</div>
+	</div>
+
+</div>

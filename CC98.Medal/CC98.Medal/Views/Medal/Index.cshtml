@@ -14,14 +14,14 @@
 	</div>
 	<div class="col-9">
 
-		<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6">
+		<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4">
 			@foreach (var item in Model)
 			{
 				<div class="col mb-3">
 					<div class="card h-100">
 						<div class="card-body">
 							<div class="media">
-								<img class="" src="@Url.Content(item.ImageUri)" alt="勋章图案" />
+								<img class="" src="@Url.Content(item.ImageUri)" alt="勋章图案" style="max-width: 64px; max-height: 64px;" />
 								<div class="media-body">
 									<h5 class="mt-0">@item.Name</h5>
 									<p>@item.Description</p>

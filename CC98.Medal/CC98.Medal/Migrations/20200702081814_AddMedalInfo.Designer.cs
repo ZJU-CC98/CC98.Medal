@@ -4,14 +4,16 @@ using CC98.Medal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CC98.Medal.Migrations
 {
     [DbContext(typeof(CC98MedalDbContext))]
-    partial class CC98MedalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200702081814_AddMedalInfo")]
+    partial class AddMedalInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
