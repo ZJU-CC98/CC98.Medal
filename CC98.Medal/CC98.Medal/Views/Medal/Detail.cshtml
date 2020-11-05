@@ -5,3 +5,43 @@
 	ViewBag.Title = ViewLocalizer["勋章详情 - {0}", Model.Name];
 }
 
+<div class="text-center">
+	<img style="max-width: 240px; max-height: 240px;" class="img-thumbnail text-center" src="@Url.Content(Model.ImageUri)" alt="勋章图案" />
+	<p class="text-break text-wrap">@Model.Description</p>
+	<hr />
+</div>
+
+<h2 class="text-center lead">获得这枚勋章</h2>
+<hr />
+@if (Model.CanBuy && Model.BuySettings.Any())
+{
+	<div class="alert alert-info">你可以通过支付一定的 98 财富值获得这枚勋章。</div>
+
+	<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center">
+		@foreach (var item in Model.BuySettings)
+		{
+			<div class="col mb-3">
+				<div class="card text-center">
+					<div class="card-body">
+						<div class="card-text">
+							@if (item.ExpireDays != null)
+							{
+								<strong>@ViewLocalizer["{0} 天", item.ExpireDays.Value]</strong>
+							}
+							else
+							{
+								<strong>永久</strong>
+							}
+							<hr />
+							<div>@ViewLocalizer["{0} 财富值", item.Price]</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<button type="button" class="btn btn-primary">立即购买</button>
+					</div>
+				</div>
+			</div>
+		}
+
+	</div>
+}

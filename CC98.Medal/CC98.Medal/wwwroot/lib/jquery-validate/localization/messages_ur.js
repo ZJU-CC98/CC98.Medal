@@ -1,13 +1,3 @@
-(function( factory ) {
-	if ( typeof define === "function" && define.amd ) {
-		define( ["jquery", "../jquery.validate"], factory );
-	} else if (typeof module === "object" && module.exports) {
-		module.exports = factory( require( "jquery" ) );
-	} else {
-		factory( jQuery );
-	}
-}(function( $ ) {
-
 /*
  * Translated default messages for the jQuery validation plugin.
  * Locale: UR (Urdu; اردو)
@@ -31,5 +21,3 @@ $.extend( $.validator.messages, {
 	max: $.validator.format( "زیادہ سے زیادہ {0} کا اندراج کر سکتے ہیں" ),
 	min: $.validator.format( "کم سے کم {0} کا اندراج کرنا ضروری ہے" )
 } );
-return $;
-}));

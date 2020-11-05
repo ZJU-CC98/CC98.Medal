@@ -85,6 +85,51 @@
 			<small class="form-text text-muted">如果选中该复选框，则允许用户自助购买勋章。</small>
 			<span class="text-danger" asp-validation-for="HideOwners"></span>
 		</div>
+
 	</div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>时间（天）</th>
+				<th>价格</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.BuySettings.Any())
+			{
+				for (var i = 0; i < Model.BuySettings.Length; i++)
+				{
+					<tr>
+						<td>
+							<input type="number" min="0" step="1" placeholder="永久" asp-for="BuySettings[i].ExpireDays" />
+						</td>
+						<td>
+							<input type="number" min="0" step="1" asp-for="BuySettings[i].Price" />
+						</td>
+						<td>
+							<div class="btn-group btn-group-sm">
+								<button type="button" class="btn btn-danger">删除</button>
+							</div>
+						</td>
+					</tr>
+				}
+			}
+			<tr>
+				<td>
+					<input type="number" min="0" step="1" placeholder="永久" />
+				</td>
+				<td>
+					<input type="number" min="0" step="1" />
+				</td>
+				<td>
+					<div class="btn-group btn-group-sm">
+						<button type="button" class="btn btn-danger">添加</button>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 
 </div>

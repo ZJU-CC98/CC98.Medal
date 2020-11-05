@@ -21,7 +21,7 @@
 			@foreach (var item in Model)
 			{
 				<tr>
-					<th>@item.Name</th>
+					<th><a asp-controller="Medal" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a></th>
 					<td>
 						@if (item.Category != null)
 						{

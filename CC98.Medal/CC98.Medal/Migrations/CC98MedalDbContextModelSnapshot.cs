@@ -26,6 +26,10 @@ namespace CC98.Medal.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BuySettingString")
+                        .HasColumnName("BuySettings")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("CanApply")
                         .HasColumnType("bit");
 

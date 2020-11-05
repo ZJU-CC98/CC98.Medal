@@ -45,7 +45,7 @@ namespace CC98.Medal.Data
 		/// </summary>
 		[StringLength(100)]
 		[Required]
-		public string Name { get; set; }
+		public string Name { get; set; } = null!;
 
 		/// <summary>
 		/// 获取或设置勋章分类的描述。

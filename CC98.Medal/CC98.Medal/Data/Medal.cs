@@ -1,5 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+
+using Microsoft.EntityFrameworkCore;
+
+using Newtonsoft.Json;
 
 namespace CC98.Medal.Data
 {
@@ -25,7 +33,7 @@ namespace CC98.Medal.Data
 		/// <summary>
 		/// 获取或设置该勋章的描述。
 		/// </summary>
-		[Display(Name= "勋章描述")]
+		[Display(Name = "勋章描述")]
 		public string? Description { get; set; }
 
 		/// <summary>
@@ -33,7 +41,7 @@ namespace CC98.Medal.Data
 		/// </summary>
 		[Required]
 		[DataType(DataType.ImageUrl)]
-		[Display(Name =  "图片地址")]
+		[Display(Name = "图片地址")]
 		public string ImageUri { get; set; } = null!;
 
 		/// <summary>
@@ -79,5 +87,24 @@ namespace CC98.Medal.Data
 		/// </summary>
 		[Display(Name = "隐藏拥有者")]
 		public bool HideOwners { get; set; }
+
+		/// <summary>
+		/// <see cref="BuySettings"/> 内部数据库存储字符串。
+		/// </summary>
+		[Column(nameof(BuySettings))]
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public string? BuySettingString { get; set; }
+
+		/// <summary>
+		/// 勋章的购买设置。
+		/// </summary>
+		[IgnoreDataMember]
+		[XmlIgnore]
+		[NotMapped]
+		public MedalBuySetting[] BuySettings
+		{
+			get => SerializationHelper.TryDeserialize<MedalBuySetting[]>(BuySettingString) ?? Array.Empty<MedalBuySetting>();
+			set => BuySettingString = SerializationHelper.TrySerialize(value);
+		}
 	}
 }

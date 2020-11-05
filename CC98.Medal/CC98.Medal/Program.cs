@@ -28,7 +28,7 @@ namespace CC98.Medal
 		/// </summary>
 		/// <param name="args">应用程序的启动参数。</param>
 		/// <returns>表示程序宿主的 <see cref="IHostBuilder"/> 对象。</returns>
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
+		private static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
