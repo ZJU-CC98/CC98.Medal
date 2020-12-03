@@ -1,8 +1,30 @@
-﻿@model IEnumerable<MedalCategory>
+﻿@using System.Linq
+@model IEnumerable<MedalCategory>
 @{
 	var aspFor = (ModelExpression)ViewBag.AspFor;
-	var selectList = new SelectList(Model, nameof(MedalCategory.Id), nameof(MedalCategory.Name), aspFor.Model);
+	var showNoCategoryOption = (bool)ViewBag.ShowNoCategoryOption;
 }
 
-<select name="@aspFor.Name" asp-items="@selectList" class="form-control">
-</select>
+<div class="ui fluid dropdown button" data-setting="{'allowCategorySelection' : true}">
+	<input type="hidden" name="@aspFor.Name" value="@aspFor.Model" />
+	<i class="dropdown icon"></i>
+	<div class="default text">选择一个分类</div>
+
+	<div class="menu">
+
+		@if (showNoCategoryOption)
+		{
+			<div class="item" data-value="">
+				<span class="grey text">(无分类)</span>
+			</div>
+		}
+
+		@foreach (var item in Model)
+		{
+			<partial name="_MedalCategoryItemTemplate" model="@item" />
+		}
+	</div>
+
+
+</div>
+

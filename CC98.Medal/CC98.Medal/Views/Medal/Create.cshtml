@@ -3,15 +3,17 @@
 	ViewBag.Title = "创建勋章";
 }
 
-<form asp-controller="Medal" asp-action="Create" method="post" asp-antiforgery="true">
+<form class="ui form" asp-controller="Medal" asp-action="Create" method="post" asp-antiforgery="true">
 
-	<div class="row justify-content-center">
+	<div class="ui centered grid">
 
-		<div class="col-12 col-sm-9 col-md-6">
+		<div class="eight wide column">
 
 			<partial name="_EditPartial" />
 
 			<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+			
+			<div class="ui divider"></div>
 
 			<button type="submit" class="btn btn-primary">创建勋章</button>
 			<button type="reset" class="btn btn-outline-secondary">清空内容</button>
@@ -21,3 +23,8 @@
 	</div>
 
 </form>
+
+@section Scripts
+{
+	<partial name="_VuePartial" />
+}

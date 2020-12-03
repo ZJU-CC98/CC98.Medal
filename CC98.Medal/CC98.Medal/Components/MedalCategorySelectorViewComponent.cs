@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using CC98.Medal.Data;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
@@ -33,15 +34,23 @@ namespace CC98.Medal.Components
 		/// <summary>
 		/// 执行组件。
 		/// </summary>
-		/// <returns></returns>
-		public async Task<IViewComponentResult> InvokeAsync(ModelExpression aspFor)
+		/// <param name="aspFor">该组件绑定到的视图模型表达式。</param>
+		/// <param name="showNoCategoryOption">是否显示“无分类”表达式。</param>
+		/// <returns>操作结果。</returns>
+		public async Task<IViewComponentResult> InvokeAsync(ModelExpression aspFor, bool showNoCategoryOption = true)
 		{
-			var items =
-				from i in DbContext.MedalCategories
+			// 加载所有项目
+			var allItems = await DbContext.MedalCategories.ToArrayAsync(HttpContext.RequestAborted);
+
+			var topItems =
+				from i in allItems
+				where i.ParentId == null
+				orderby i.SortOrder
 				select i;
 
 			ViewBag.AspFor = aspFor;
-			return View(await items.ToArrayAsync(HttpContext.RequestAborted));
+			ViewBag.ShowNoCategoryOption = showNoCategoryOption;
+			return View(topItems.ToArray());
 		}
 	}
 }

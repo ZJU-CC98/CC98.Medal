@@ -1,0 +1,18 @@
+﻿@using Microsoft.Extensions.Hosting
+
+<environment include="@Environments.Development">
+	<script src="~/lib/vue/vue.global.js"></script>
+</environment>
+
+<environment exclude="@Environments.Development">
+	<script src="~/lib/vue/vue.global.prod.js"></script>
+</environment>
+
+@* 自动执行初始化脚本 *@
+<script>
+
+	if (initializeVue) {
+		$(initializeVue);
+	}
+
+</script>

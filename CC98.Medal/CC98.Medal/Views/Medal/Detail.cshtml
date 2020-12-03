@@ -2,6 +2,7 @@
 @model Medal
 @inject IViewLocalizer ViewLocalizer
 @{
+	
 	ViewBag.Title = ViewLocalizer["勋章详情 - {0}", Model.Name];
 }
 
@@ -15,7 +16,7 @@
 <hr />
 @if (Model.CanBuy && Model.BuySettings.Any())
 {
-	<div class="alert alert-info">你可以通过支付一定的 98 财富值获得这枚勋章。</div>
+	<div class="alert alert-info">你可以通过支付一定的财富值获得这枚勋章。</div>
 
 	<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center">
 		@foreach (var item in Model.BuySettings)

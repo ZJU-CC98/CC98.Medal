@@ -1,0 +1,30 @@
+﻿@using System.Globalization
+@model MedalCategory
+@{
+	ViewBag.Title = "创建勋章分类";
+	var parentId = (int?)ViewBag.ParentId;
+}
+
+<form class="ui form" asp-controller="Category" asp-action="Create" method="post" asp-antiforgery="true">
+
+	<div class="ui centered grid">
+		<div class="doubling two column row">
+			<div class="column">
+
+				<partial name="_EditPartial" />
+
+				<div class="ui divider"></div>
+				<button type="submit" class="ui primary button">创建分类</button>
+				<button type="reset" class="ui secondary button">清空内容</button>
+
+			</div>
+		</div>
+
+	</div>
+
+</form>
+
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial" />
+}

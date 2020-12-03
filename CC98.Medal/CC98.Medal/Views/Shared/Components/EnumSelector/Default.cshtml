@@ -1,0 +1,15 @@
+﻿@model EnumSelectorViewModel
+
+<div class="ui fluid selection dropdown">
+	<input type="hidden" name="@Model.AspFor.Name" value="@Model.AspFor.Model" />
+	<span class="text"></span>
+	<div class="menu">
+		@foreach (var item in Model.Items)
+		{
+			<div class="item" data-value="@item.Value">
+				<span class="text">@item.Name</span>
+				<span class="description">@item.Description</span>
+			</div>
+		}
+	</div>
+</div>

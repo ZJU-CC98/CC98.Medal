@@ -1,0 +1,38 @@
+﻿@model MedalCategory
+
+<div class="field" asp-validation-style-for="Name">
+	<label asp-for="Name">分类名称</label>
+	<input type="text" asp-for="Name" />
+	<small class="helper">勋章分类的名称。将会出现在分类列表中。</small>
+	<span asp-validation-for="Name" class="text-danger"></span>
+</div>
+
+<div class="field" asp-validation-style-for="Description">
+	<label asp-for="Description">分类描述</label>
+	<textarea rows="3" asp-for="Description"></textarea>
+	<small class="helper">勋章分类的描述。将会出现在分类的光标提示和详细信息页面中。</small>
+	<span asp-validation-for="Description" class="text-danger"></span>
+</div>
+
+<div class="field" asp-validation-style-for="IconUri">
+	<label asp-for="IconUri">分类图标</label>
+	<input type="url" asp-for="IconUri" />
+	<small class="helper">勋章分类的图标。将会出现在分类列表中。</small>
+	<span asp-validation-for="IconUri" class="text-danger"></span>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="field" asp-validation-style-for="SortOrder">
+	<label asp-for="SortOrder">排序顺序</label>
+	<input type="text" asp-for="SortOrder" />
+	<small class="helper">该分类的排序顺序。在所有同级的分类中，编号更小的项的显示位置将更加靠前。</small>
+	<span asp-validation-for="SortOrder" class="text-danger"></span>
+</div>
+
+<div class="field" asp-validation-style-for="Name">
+	<label asp-for="ParentId">上级分类</label>
+	<vc:medal-category-selector asp-for="ParentId" show-no-category-option="false" />
+	<small class="helper">该分类的上级分类。如果不设定上级分类，则将作为顶级分类出现在分类列表的最上层。</small>
+	<span asp-validation-for="ParentId" class="text-danger"></span>
+</div>

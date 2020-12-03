@@ -1,0 +1,20 @@
+﻿@model Sakura.AspNetCore.IPagedList<MedalCategory>
+@{
+	ViewBag.Title = "勋章类别";
+}
+
+<div class="ui info message">此处列出的是所有顶级勋章类别。要查看子类别，请单击这个勋章类别的名称。</div>
+
+@if (Model.Any())
+{
+	<partial name="_CategoryListTablePartial" />
+	<pager />
+}
+else
+{
+	<div class="text-center text-muted">目前还没有任何勋章类别。</div>
+}
+
+<div class="ui divider"></div>
+
+<a asp-controller="Category" asp-action="Create" class="ui primary button">创建新分类</a>

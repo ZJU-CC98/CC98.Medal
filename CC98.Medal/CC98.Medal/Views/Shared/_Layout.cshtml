@@ -8,8 +8,7 @@
 
 	<environment include="@Environments.Development">
 		<link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
-		<link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
-		<link rel="stylesheet" href="~/lib/bstreeview/css/bstreeview.min.css" />
+		<link rel="stylesheet" href="~/lib/semantic-ui/semantic.css" />
 		<link rel="stylesheet" href="~/css/site.css" />
 	</environment>
 
@@ -23,15 +22,14 @@
 			  asp-fallback-test-value="inline-block"
 			  asp-fallback-href="~/lib/font-awesome/css/all.min.css" />
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css"
-			  integrity="sha512-oc9+XSs1H243/FRN9Rw62Fn8EtxjEYWHXRvjS43YtueEewbS6ObfXcJNyohjHqVKFPoXXUxwc+q1K7Dee6vv9g=="
-			  crossorigin="anonymous"
-			  asp-fallback-test-class="sr-only"
-			  asp-fallback-test-property="position"
-			  asp-fallback-test-value="absolute"
-			  asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css" />
 
-		<link rel="stylesheet" href="~/lib/bstreeview/css/bstreeview.min.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+			  integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+			  crossorigin="anonymous"
+			  asp-fallback-test-class="pushable"
+			  asp-fallback-test-property="overflow-x"
+			  asp-fallback-test-value="hidden"
+			  asp-fallback-href="~/lib/semantic-ui/semantic.min.css" />
 
 		<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 
@@ -44,35 +42,29 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-			<div class="container">
-				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CC98 勋章系统</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar-collapse" aria-controls="main-navbar-collapse"
-						aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div id="main-navbar-collapse" class="navbar-collapse collapse">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-controller="Medal" asp-action="Index">勋章列表</a>
-						</li>
 
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="manage-navbar-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								管理
-							</a>
-							<div class="dropdown-menu" aria-labelledby="manage-navbar-dropdown">
-								<a class="dropdown-item" asp-controller="Medal" asp-action="Manage" asp-authorize-policy="@Policies.Edit">勋章</a>
-							</div>
-						</li>
-					</ul>
+		<div class="ui container">
+
+			<div class="ui top fixed menu">
+				<a class="item" asp-controller="Home" asp-action="Index">CC98 勋章系统</a>
+				<div class="ui dropdown item">
+					管理 <i class="dropdown icon"></i>
+					<div class="menu">
+						<a class="item" asp-controller="Medal" asp-action="Manage" asp-authorize-policy="@Policies.Edit">勋章</a>
+						<a class="item" asp-controller="Category" asp-action="Index" asp-authorize-policy="@Policies.Edit">分类</a>
+					</div>
+				</div>
+				<div class="right menu">
 					<partial name="_LogOnPartial" />
 				</div>
 			</div>
-		</nav>
+
+		</div>
+
 	</header>
-	<div class="container">
-		<main role="main" class="pb-3">
+
+	<div class="ui container">
+		<main role="main">
 			@RenderBody()
 		</main>
 	</div>
@@ -84,14 +76,19 @@
 	</footer>
 
 	<environment include="@Environments.Development">
+		<script src="~/lib/json5/json5.js"></script>
 		<script src="~/lib/jquery/jquery.js"></script>
-		<script src="~/lib/popper.js/umd/popper.js"></script>
-		<script src="~/lib/bootstrap/js/bootstrap.js"></script>
-		<script src="~/lib/bstreeview/js/bstreeview.min.js"></script>
+		<script src="~/lib/semantic-ui/semantic.js"></script>
 		<script src="~/js/site.js"></script>
 	</environment>
 
 	<environment exclude="@Environments.Development">
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/json5/0.5.1/json5.min.js"
+				integrity="sha512-0Z0waakasLFLv2VFHGqiiCQebtQi7wpUieRR4yInvJ/EGQk9r+4LvjMEgsi15EnvONG2uo2Z9bdJXDV8uU8iuA=="
+				crossorigin="anonymous"
+				asp-fallback-test="window.JSON5"
+				asp-fallback-src="~/lib/json5/json5.min.js"></script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 				integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
@@ -99,17 +96,12 @@
 				asp-fallback-test="window.jQuery"
 				asp-fallback-src="~/lib/jquery/jquery.min.js"></script>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.4/umd/popper.min.js" 
-		        integrity="sha512-7yA/d79yIhHPvcrSiB8S/7TyX0OxlccU8F/kuB8mHYjLlF1MInPbEohpoqfz0AILoq5hoD7lELZAYYHbyeEjag=="
-		        crossorigin="anonymous"
-				asp-fallback-test="window.Popper"
-				asp-fallback-src="~/lib/popper.js/umd/popper.min.js"></script>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"
-				integrity="sha512-8qmis31OQi6hIRgvkht0s6mCOittjMa9GMqtK9hes5iEQBQE/Ca6yGE5FsW36vyipGoWQswBj/QBm2JR086Rkw=="
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
+				integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
 				crossorigin="anonymous"
-				asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-				asp-fallback-src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+				asp-fallback-test="window.jQuery && window.jQuery.site"
+				asp-fallback-src="~/lib/semantic-ui/semantic.min.js"></script>
 
 		<script src="~/lib/bstreeview/js/bstreeview.min.js"></script>
 

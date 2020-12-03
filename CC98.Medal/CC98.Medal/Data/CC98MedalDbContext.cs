@@ -32,5 +32,11 @@ namespace CC98.Medal.Data
 		/// </summary>
 		[UsedImplicitly(ImplicitUseKindFlags.Assign)]
 		public virtual DbSet<MedalCategory> MedalCategories { get; set; } = null!;
+
+		/// <summary>
+		/// 获取或设置系统中包含的勋章颁发记录的集合。
+		/// </summary>
+		[UsedImplicitly(ImplicitUseKindFlags.Assign)]
+		public virtual DbSet<MedalIssueRecord> MedalIssueRecords { get; set; } = null!;
 	}
 }

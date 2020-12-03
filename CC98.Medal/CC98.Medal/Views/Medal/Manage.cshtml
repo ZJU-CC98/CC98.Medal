@@ -5,9 +5,9 @@
 
 @if (Model.Any())
 {
-	<div class="alert alert-info">下表列出了系统中的所有勋章，包括对普通用户不可见的项目。</div>
+	<div class="ui info message">下表列出了系统中的所有勋章，包括对普通用户不可见的项目。</div>
 
-	<table class="table table-striped table-hover">
+	<table class="ui celled definition table">
 		<thead>
 			<tr>
 				<th>名称</th>
@@ -21,7 +21,7 @@
 			@foreach (var item in Model)
 			{
 				<tr>
-					<th><a asp-controller="Medal" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a></th>
+					<td><a asp-controller="Medal" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a></td>
 					<td>
 						@if (item.Category != null)
 						{
@@ -36,9 +36,9 @@
 						@item.State
 					</td>
 					<td>
-						<div class="btn-group btn-group-sm">
-							<a asp-controller="Medal" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">编辑</a>
-							<button type="button" class="btn btn-danger">删除</button>
+						<div class="ui mini buttons">
+							<a asp-controller="Medal" asp-action="Edit" asp-route-id="@item.Id" class="ui secondary button">编辑</a>
+							<button type="button" class="ui negative button">删除</button>
 						</div>
 					</td>
 				</tr>
@@ -53,4 +53,4 @@ else
 }
 
 <hr />
-<a asp-controller="Medal" asp-action="Create" class="btn btn-primary">添加勋章</a>
+<a asp-controller="Medal" asp-action="Create" class="ui primary button">添加勋章</a>

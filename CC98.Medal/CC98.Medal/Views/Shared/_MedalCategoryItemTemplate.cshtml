@@ -1,0 +1,18 @@
+﻿@model MedalCategory
+
+<div class="item" data-value="@Model.Id">
+	<span class="text">@Model.Name</span>
+	<span class="description">@Model.Description</span>
+
+	@if (Model.Children.Any())
+	{
+		<i class="dropdown icon"></i>
+
+		<div class="menu">
+			@foreach (var subItem in Model.Children)
+			{
+				<partial name="_MedalCategoryItemTemplate" model="@subItem" />
+			}
+		</div>
+	}
+</div>

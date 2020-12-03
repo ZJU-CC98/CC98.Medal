@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using CC98.Authentication.OpenIdConnect;
 using CC98.Medal.Data;
-
+using CC98.Medal.TagHelpers;
 using IdentityModel;
 
 using JetBrains.Annotations;
@@ -22,6 +22,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sakura.AspNetCore.Mvc;
 
 namespace CC98.Medal
 {
@@ -56,11 +57,12 @@ namespace CC98.Medal
 					options.UseSqlServer(Configuration.GetConnectionString("CC98-Medal"));
 				});
 
+			services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 			services.AddControllersWithViews()
 				.AddRazorRuntimeCompilation()
-				.AddMvcLocalization(options => options.ResourcesPath = "Resources")
-				.AddDataAnnotationsLocalization()
-				.AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder);
+				.AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder)
+				.AddDataAnnotationsLocalization();
 
 			services.AddAuthentication(IdentityConstants.ApplicationScheme)
 				.AddCookie(IdentityConstants.ApplicationScheme, options =>
@@ -100,6 +102,13 @@ namespace CC98.Medal
 			});
 
 			services.AddExternalSignInManager();
+
+			// HTML generator
+			services.AddSingleton<IPagerHtmlGenerator, SemanticUIPagerHtmlGenerator>();
+			services.AddBootstrapPagerGenerator(options =>
+			{
+				options.ConfigureDefault();
+			});
 		}
 
 		/// <summary>
@@ -121,12 +130,6 @@ namespace CC98.Medal
 				app.UseHsts();
 			}
 			app.UseHttpsRedirection();
-			app.UseStaticFiles();
-
-			app.UseRouting();
-
-			app.UseAuthentication();
-			app.UseAuthorization();
 
 			app.UseRequestLocalization(options =>
 			{
@@ -135,6 +138,12 @@ namespace CC98.Medal
 				options.AddSupportedCultures("zh-CN-Hans", "zh-CN", "zh-Hans", "zh");
 				options.AddSupportedUICultures("zh-CN-Hans", "zh-CN", "zh-Hans", "zh");
 			});
+
+			app.UseStaticFiles();
+			app.UseRouting();
+
+			app.UseAuthentication();
+			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{

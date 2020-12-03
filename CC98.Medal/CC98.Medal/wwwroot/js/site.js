@@ -5,15 +5,15 @@
 
 function initialize() {
 
+	$('.ui.checkbox').checkbox();
 
-	$('.tree-view').each(function (index, ele) {
-		var data = $(ele).data('tree-view-data');
-		$(ele).bstreeview({
-			data: data,
-			openNodeLinkOnNewTab: false
-		});
+	$('.ui.dropdown').dropdown();
+	$('select.dropdown').dropdown();
+
+	$('.dropdown[data-setting]').each(function(index, ele) {
+		var setting = $(ele).data('setting');
+		$(ele).dropdown(JSON5.parse(setting));
 	});
-
 }
 
 $(initialize);

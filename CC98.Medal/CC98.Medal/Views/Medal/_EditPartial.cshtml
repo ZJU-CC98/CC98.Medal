@@ -1,135 +1,83 @@
 ﻿@model Medal
 
-<div class="card mb-3">
-	<div class="card-header">基本设置</div>
-	<div class="card-body">
-		<div class="form-group">
-			<label asp-for="Name"></label>
-			<input type="text" asp-for="Name" class="form-control" />
-			<small class="form-text text-muted">勋章名称，将会显示在勋章的展示界面。</small>
-			<span class="text-danger" asp-validation-for="Name"></span>
-		</div>
-
-		<div class="form-group">
-			<label asp-for="Description"></label>
-			<textarea asp-for="Description" rows="3" class="form-control"></textarea>
-			<small class="form-text text-muted">勋章的描述，将会显示在勋章的展示页面。</small>
-			<span class="text-danger" asp-validation-for="Description"></span>
-		</div>
-
-		<div class="form-group">
-			<label asp-for="CategoryId"></label>
-			<vc:medal-category-selector asp-for="CategoryId" />
-			<small class="form-text text-muted">勋章的分类。用于便于用户检索勋章。</small>
-			<span class="text-danger" asp-validation-for="CategoryId"></span>
-		</div>
-
-
-		<div class="form-group">
-			<label asp-for="ImageUri"></label>
-			<input type="url" asp-for="ImageUri" class="form-control" />
-			<small class="form-text text-muted">勋章的图案。</small>
-			<span class="text-danger" asp-validation-for="ImageUri"></span>
-		</div>
-
-		<div class="form-group">
-			<label asp-for="LinkUri"></label>
-			<input type="url" asp-for="LinkUri" class="form-control" />
-			<small class="form-text text-muted">勋章的链接地址。当用户点击勋章时将会调转到该地址。如将该地址留空，则默认跳转到勋章系统。</small>
-			<span class="text-danger" asp-validation-for="LinkUri"></span>
-		</div>
-	</div>
-
+<div class="ui dividing header">基本设置</div>
+<div class="field" asp-validation-style-for="Name">
+	<label asp-for="Name"></label>
+	<input type="text" asp-for="Name" />
+	<small class="helper">勋章名称，将会显示在勋章的展示界面。</small>
+	<span class="text-danger" asp-validation-for="Name"></span>
 </div>
 
-<div class="card mb-3">
-	<div class="card-header">功能设置</div>
-	<div class="card-body">
+<div class="field" asp-validation-style-for="Description">
+	<label asp-for="Description"></label>
+	<textarea asp-for="Description" rows="3"></textarea>
+	<small class="helper">勋章的描述，将会显示在勋章的展示页面。</small>
+	<span class="text-danger" asp-validation-for="Description"></span>
+</div>
 
-		<div class="form-group">
-			<label asp-for="State"></label>
-			<select asp-enum-for="State" asp-text-source="Name" class="form-control"></select>
-			<small class="form-text text-muted">勋章的状态。这将定义用户是否能看到勋章。</small>
-			<span class="text-danger" asp-validation-for="Name"></span>
-		</div>
-
-		<hr />
-
-		<div class="form-group">
-			<div class="form-check">
-				<label class="form-check-label">
-					<input type="checkbox" asp-for="HideOwners" class="form-check-input" /> 隐藏勋章拥有者列表
-				</label>
-			</div>
-			<small class="form-text text-muted">如果选中该复选框。则普通用户将不能看到这个勋章现在拥有的用户列表。这个功能不影响管理员，也不影响勋章的其它功能。</small>
-			<span class="text-danger" asp-validation-for="HideOwners"></span>
-		</div>
-
-		<div class="form-group">
-			<div class="form-check">
-				<label class="form-check-label">
-					<input type="checkbox" asp-for="CanApply" class="form-check-input" /> 允许申请勋章
-				</label>
-			</div>
-			<small class="form-text text-muted">如果选中该复选框。则允许用户申请勋章，勋章审核员可以随后决定是否授予勋章。</small>
-			<span class="text-danger" asp-validation-for="HideOwners"></span>
-		</div>
+<div class="field" asp-validation-style-for="CategoryId">
+	<label asp-for="CategoryId"></label>
+	<vc:medal-category-selector asp-for="CategoryId" show-no-category-option="true" />
+	<small class="helper">勋章的分类。用于便于用户检索勋章。</small>
+	<span class="text-danger" asp-validation-for="CategoryId"></span>
+</div>
 
 
-		<div class="form-group">
-			<div class="form-check">
-				<label class="form-check-label">
-					<input type="checkbox" asp-for="CanBuy" class="form-check-input" /> 允许购买勋章
-				</label>
-			</div>
-			<small class="form-text text-muted">如果选中该复选框，则允许用户自助购买勋章。</small>
-			<span class="text-danger" asp-validation-for="HideOwners"></span>
-		</div>
+<div class="field" asp-validation-style-for="ImageUri">
+	<label asp-for="ImageUri"></label>
+	<input type="url" asp-for="ImageUri" />
+	<small class="helper">勋章的图案。</small>
+	<span class="text-danger" asp-validation-for="ImageUri"></span>
+</div>
+
+<div class="field" asp-validation-style-for="LinkUri">
+	<label asp-for="LinkUri"></label>
+	<input type="url" asp-for="LinkUri" />
+	<small class="helper">勋章的链接地址。当用户点击勋章时将会调转到该地址。如将该地址留空，则默认跳转到勋章系统。</small>
+	<span class="text-danger" asp-validation-for="LinkUri"></span>
+</div>
+
+
+<div class="ui dividing header">功能设置</div>
+
+<div class="field">
+	<label asp-for="State"></label>
+	<vc:enum-selector asp-for="State" />
+	<small class="helper">勋章的状态。这将影响用户是否能看到和展示这个勋章。</small>
+	<span class="text-danger" asp-validation-for="State"></span>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="field">
+	<div class="ui toggle checkbox">
+		<input type="checkbox" asp-for="HideOwners" />
+		<label>隐藏勋章拥有者列表</label>
+		<small class="helper">禁止普通用户看到这个勋章现在拥有的用户列表。这个功能不影响管理员，也不影响勋章的其它功能。</small>
+		<span class="text-danger" asp-validation-for="HideOwners"></span>
 
 	</div>
-
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>时间（天）</th>
-				<th>价格</th>
-				<th>操作</th>
-			</tr>
-		</thead>
-		<tbody>
-			@if (Model.BuySettings.Any())
-			{
-				for (var i = 0; i < Model.BuySettings.Length; i++)
-				{
-					<tr>
-						<td>
-							<input type="number" min="0" step="1" placeholder="永久" asp-for="BuySettings[i].ExpireDays" />
-						</td>
-						<td>
-							<input type="number" min="0" step="1" asp-for="BuySettings[i].Price" />
-						</td>
-						<td>
-							<div class="btn-group btn-group-sm">
-								<button type="button" class="btn btn-danger">删除</button>
-							</div>
-						</td>
-					</tr>
-				}
-			}
-			<tr>
-				<td>
-					<input type="number" min="0" step="1" placeholder="永久" />
-				</td>
-				<td>
-					<input type="number" min="0" step="1" />
-				</td>
-				<td>
-					<div class="btn-group btn-group-sm">
-						<button type="button" class="btn btn-danger">添加</button>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
 </div>
+
+<div class="field">
+	<div class="ui toggle checkbox">
+		<input type="checkbox" asp-for="CanApply" />
+		<label>允许申请勋章</label>
+		<small class="helper">允许用户申请这个勋章，勋章审核员可以随后决定是否授予勋章。</small>
+		<span class="text-danger" asp-validation-for="HideOwners"></span>
+	</div>
+</div>
+
+
+<div class="field">
+	<div class="ui toggle checkbox">
+		<input type="checkbox" asp-for="CanBuy" />
+		<label>允许购买勋章</label>
+		<small class="helper">允许用户自助购买这个勋章。注意，你必须同时设定至少一条购买规则，才能使购买功能生效。</small>
+		<span class="text-danger" asp-validation-for="HideOwners"></span>
+
+	</div>
+</div>
+
+<div class="ui dividing header">购买规则</div>
+<partial name="_BuySettingPartial" for="BuySettingString" />

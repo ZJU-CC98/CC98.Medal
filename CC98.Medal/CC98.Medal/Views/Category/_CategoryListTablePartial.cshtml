@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MedalCategory>
+
+<table class="ui celled definition table">
+	<thead>
+		<tr>
+			<th>名称</th>
+			<th>描述</th>
+			<th>排序值 <i class="fas fa-question-circle help" data-toggle="tooltip" title="在展示同级别的多个勋章分类时，排序值较小的项目将会出现在更前面。如果有两个项目的排序值相同，则它们显示顺序将无法确定。"></i></th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					<a asp-controller="Category" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a>
+				</td>
+				<td>
+					@if (!string.IsNullOrEmpty(item.Description))
+					{
+						<span>@item.Description</span>
+					}
+					else
+					{
+						<span class="text-muted">无</span>
+					}
+				</td>
+				<td>@item.SortOrder</td>
+				<td>
+					<div class="ui mini buttons">
+						<a class="ui button" asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">编辑</a>
+					</div>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
