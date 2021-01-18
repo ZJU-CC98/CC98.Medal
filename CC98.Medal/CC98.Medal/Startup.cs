@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 using CC98.Authentication.OpenIdConnect;
 using CC98.Medal.Data;
+using CC98.Medal.Services;
 using CC98.Medal.TagHelpers;
+using CC98.Services.Web;
+
 using IdentityModel;
 
 using JetBrains.Annotations;
@@ -22,6 +25,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Framework.DependencyInjection;
+
 using Sakura.AspNetCore.Mvc;
 
 namespace CC98.Medal
@@ -52,6 +57,9 @@ namespace CC98.Medal
 		[UsedImplicitly]
 		public void ConfigureServices(IServiceCollection services)
 		{
+			// 应用程序设置配置
+			services.Configure<AppSetting>(Configuration.GetSection("AppSetting"));
+
 			services.AddDbContext<CC98MedalDbContext>(options =>
 				{
 					options.UseSqlServer(Configuration.GetConnectionString("CC98-Medal"));
@@ -103,11 +111,29 @@ namespace CC98.Medal
 
 			services.AddExternalSignInManager();
 
+			services.AddSingleton<IObjectSerializer, HtmlContentSerializer>();
+			services.AddEnhancedTempData();
+
 			// HTML generator
 			services.AddSingleton<IPagerHtmlGenerator, SemanticUIPagerHtmlGenerator>();
 			services.AddBootstrapPagerGenerator(options =>
 			{
 				options.ConfigureDefault();
+			});
+
+			services.AddSingleton<IOperationMessageLevelClassMapper, SemanticUIOperationMessageLevelClassMapper>();
+			services.AddSingleton<IOperationMessageHtmlGenerator, SemanticUIOperationMessageUIGenerator>();
+
+			services.AddOperationMessages();
+
+			// 文件上传服务。
+			services.AddCC98FileUploadWebService(options =>
+			{
+
+				options.ClientId = Configuration["Authentication:CC98:ClientId"];
+				options.ClientSecret = Configuration["Authentication:CC98:ClientSecret"];
+				options.CompressByDefault = Configuration.GetValue<bool>("AppSetting:FileUpload:CompressByDefault");
+				options.DefaultSubPath = Configuration.GetValue<string>("AppSetting:FileUpload:DefaultSubPath");
 			});
 		}
 

@@ -15,20 +15,20 @@ namespace CC98.Medal.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("CC98.Medal.Data.Medal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("BuySettingString")
-                        .HasColumnName("BuySettings")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("BuySettings");
 
                     b.Property<bool>("CanApply")
                         .HasColumnType("bit");
@@ -54,8 +54,11 @@ namespace CC98.Medal.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -72,7 +75,7 @@ namespace CC98.Medal.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -82,8 +85,8 @@ namespace CC98.Medal.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
@@ -98,11 +101,76 @@ namespace CC98.Medal.Migrations
                     b.ToTable("MedalCategories");
                 });
 
+            modelBuilder.Entity("CC98.Medal.Data.MedalIssueRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("MedalId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("Time")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MedalId");
+
+                    b.ToTable("MedalIssueRecords");
+                });
+
+            modelBuilder.Entity("CC98.Medal.Data.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("UserId")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("Wealth")
+                        .HasColumnType("int")
+                        .HasColumnName("UserWealth");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users", t => t.ExcludeFromMigrations());
+                });
+
+            modelBuilder.Entity("CC98.Medal.Data.UserMedalOwnership", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedalId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("ExpireTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "MedalId");
+
+                    b.HasIndex("MedalId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserMedalOwnerships");
+                });
+
             modelBuilder.Entity("CC98.Medal.Data.Medal", b =>
                 {
                     b.HasOne("CC98.Medal.Data.MedalCategory", "Category")
                         .WithMany("Medals")
                         .HasForeignKey("CategoryId");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("CC98.Medal.Data.MedalCategory", b =>
@@ -110,6 +178,37 @@ namespace CC98.Medal.Migrations
                     b.HasOne("CC98.Medal.Data.MedalCategory", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("CC98.Medal.Data.MedalIssueRecord", b =>
+                {
+                    b.HasOne("CC98.Medal.Data.Medal", "Medal")
+                        .WithMany()
+                        .HasForeignKey("MedalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Medal");
+                });
+
+            modelBuilder.Entity("CC98.Medal.Data.UserMedalOwnership", b =>
+                {
+                    b.HasOne("CC98.Medal.Data.Medal", "Medal")
+                        .WithMany()
+                        .HasForeignKey("MedalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Medal");
+                });
+
+            modelBuilder.Entity("CC98.Medal.Data.MedalCategory", b =>
+                {
+                    b.Navigation("Children");
+
+                    b.Navigation("Medals");
                 });
 #pragma warning restore 612, 618
         }

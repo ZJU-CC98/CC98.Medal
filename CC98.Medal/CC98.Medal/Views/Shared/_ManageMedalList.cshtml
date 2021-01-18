@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Medal>
+
+<table class="ui celled definition table">
+	<thead>
+		<tr>
+			<th>名称</th>
+			<th>类别</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@foreach (var item in Model)
+	{
+		<tr>
+			<td><a asp-controller="Medal" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a></td>
+			<td>
+				@if (item.Category != null)
+				{
+				<a asp-controller="Category" asp-action="Detail" asp-route-id="@item.CategoryId">
+					@item.Category.Name
+				</a>
+				}
+				else
+				{
+				<span class="text-muted">未分类</span>
+				}
+			</td>
+			<td>
+				<enum-item-display-text text-source="Name" value="item.State" />
+			</td>
+			<td>
+				<div class="ui mini buttons">
+					<a asp-controller="Medal" asp-action="Edit" asp-route-id="@item.Id" class="ui secondary button">编辑</a>
+					<button type="button" class="ui negative button">删除</button>
+				</div>
+			</td>
+		</tr>
+	}
+	</tbody>
+
+</table>

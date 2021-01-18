@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using JetBrains.Annotations;
 
 namespace CC98.Medal
 {
 	/// <summary>
-	/// 定义应用程序级设置。
+	/// 定义应用程序级部署设置。该设置由配置文件提供，不支持由应用程序直接更改。
 	/// </summary>
+	[UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.Itself | ImplicitUseTargetFlags.Members)]
 	public class AppSetting
 	{
 		/// <summary>
-		/// 系统公告消息。支持 HTML。
+		/// 文件上传设置。
 		/// </summary>
-		[DataType(DataType.Html)]
-		public string? Announcement { get; set; }
-
-		/// <summary>
-		/// 获取 <see cref="AppSetting"/> 对象的默认值。
-		/// </summary>
-		public static AppSetting Default => new AppSetting();
+		public FileUploadSetting FileUpload { get; set; } = null!;
 	}
 }

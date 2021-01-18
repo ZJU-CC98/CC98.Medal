@@ -17,6 +17,16 @@ namespace CC98.Medal.Models
 		/// 关联的后端模型表达式。
 		/// </summary>
 		public ModelExpression AspFor { get; set; } = null!;
+		
+		/// <summary>
+		/// 空白选项的内容。如果设置为 null 则不显示空白选项。
+		/// </summary>
+		public string? EmptyText { get; set; }
+		
+		/// <summary>
+		/// 是否显示描述。
+		/// </summary>
+		public bool ShowDescription { get; set; }
 	}
 
 	/// <summary>

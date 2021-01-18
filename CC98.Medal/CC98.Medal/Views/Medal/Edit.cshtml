@@ -11,15 +11,13 @@
 		<div class="eight wide column">
 
 			<partial name="_EditPartial" />
-			
+
 			<div class="ui divider"></div>
 
-			<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+			<error-summary title="你提交的数据中包含错误" />
 
 			<button type="submit" class="ui primary button">修改勋章</button>
 			<button type="reset" class="ui secondary button">撤销更改</button>
-
-
 		</div>
 	</div>
 
@@ -28,5 +26,8 @@
 
 @section Scripts
 {
+	<partial name="_ValidationScriptsPartial" />
 	<partial name="_VuePartial" />
+	<partial name="_AjaxPartial" />
+	<partial name="_UploadPartial" />
 }

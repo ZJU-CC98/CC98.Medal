@@ -1,8 +1,34 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.Extensions.Hosting
+@model Medal
+@{
+	Layout = "_Layout";
+	ViewData["Title"] = "主页";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div asp-message-list="AlertDialogClosable"></div>
+
+<div class="ui basic center aligned masthead segment">
+	<div class="ui text container">
+		<h1 class="ui header">欢迎来到 CC98 勋章中心</h1>
+		<h2></h2>
+		<a asp-controller="Medal" asp-action="Index" class="ui huge primary button">
+			查看勋章一览	<i class="right arrow icon"></i>
+		</a>
+	</div>
 </div>
+
+@section Head
+{
+	<environment include="@Environments.Development">
+		<link rel="stylesheet" href="~/css/mashead.css" />
+	</environment>
+
+	<environment exclude="@Environments.Development">
+		<link rel="stylesheet" href="~/css/mashead.min.css" asp-append-version="true" />
+	</environment>
+}
+
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial" />
+}

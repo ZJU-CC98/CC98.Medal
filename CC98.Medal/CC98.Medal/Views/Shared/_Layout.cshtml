@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@(ViewBag.PageTitle ?? ViewBag.Title) - CC98.Medal</title>
+	<title>@(ViewBag.PageTitle ?? ViewBag.Title) - CC98 勋章系统</title>
 
 	<environment include="@Environments.Development">
 		<link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
@@ -43,15 +43,22 @@
 <body>
 	<header>
 
-		<div class="ui container">
+		<div class="ui top inverted fixed menu">
 
-			<div class="ui top fixed menu">
+			<div class="ui container">
 				<a class="item" asp-controller="Home" asp-action="Index">CC98 勋章系统</a>
+				<a class="item" asp-controller="Medal" asp-action="Index">勋章一览</a>
 				<div class="ui dropdown item">
 					管理 <i class="dropdown icon"></i>
 					<div class="menu">
-						<a class="item" asp-controller="Medal" asp-action="Manage" asp-authorize-policy="@Policies.Edit">勋章</a>
-						<a class="item" asp-controller="Category" asp-action="Index" asp-authorize-policy="@Policies.Edit">分类</a>
+						<a class="item" asp-controller="Medal" asp-action="My">我的勋章</a>
+						<div class="item" asp-authorize-policy="@Policies.Edit">
+							<div class="header">内容管理</div>
+							<div class="menu">
+								<a class="item" asp-controller="Medal" asp-action="Manage" >勋章管理</a>
+								<a class="item" asp-controller="Category" asp-action="Index" asp-authorize-policy="@Policies.Edit">分类管理</a>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="right menu">
@@ -69,11 +76,14 @@
 		</main>
 	</div>
 
-	<footer class="border-top footer text-muted">
-		<div class="container">
-			&copy; 2019 - CC98.Medal - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-		</div>
-	</footer>
+	<div class="ui divider">
+		<footer>
+			<div class="ui basic center aligned segment">
+				&copy; 2019 - CC98.Medal - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			</div>
+		</footer>
+	</div>
+
 
 	<environment include="@Environments.Development">
 		<script src="~/lib/json5/json5.js"></script>
@@ -103,7 +113,6 @@
 				asp-fallback-test="window.jQuery && window.jQuery.site"
 				asp-fallback-src="~/lib/semantic-ui/semantic.min.js"></script>
 
-		<script src="~/lib/bstreeview/js/bstreeview.min.js"></script>
 
 		<script src="~/js/site.min.js" asp-append-version="true"></script>
 

@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+
 using JetBrains.Annotations;
 
 namespace CC98.Medal
@@ -13,6 +14,12 @@ namespace CC98.Medal
 	/// </summary>
 	public static class SerializationHelper
 	{
+		/// <summary>
+		/// 默认序列化选项。
+		/// </summary>
+		private static JsonSerializerOptions DefaultSerializerOptions { get; } =
+			new JsonSerializerOptions(JsonSerializerDefaults.Web);
+
 		/// <summary>
 		/// 尝试序列化一个值对象。如果无法进行序列化，则返回给定的默认值。
 		/// </summary>
@@ -24,7 +31,7 @@ namespace CC98.Medal
 		{
 			try
 			{
-				return JsonSerializer.Serialize(value);
+				return JsonSerializer.Serialize(value, DefaultSerializerOptions);
 			}
 			catch (JsonException)
 			{
@@ -41,11 +48,11 @@ namespace CC98.Medal
 		/// <returns>如果反序列化成功，则返回反序列化后的值；否则，返回 <paramref name="defaultValue"/> 的值。</returns>
 		[CanBeNull]
 		[return: MaybeNull]
-		public static T TryDeserialize<T>(string? value, [CanBeNull]T defaultValue = default)
+		public static T TryDeserialize<T>(string? value, [CanBeNull] T defaultValue = default)
 		{
 			try
 			{
-				return JsonSerializer.Deserialize<T>(value ?? string.Empty);
+				return JsonSerializer.Deserialize<T>(value ?? string.Empty, DefaultSerializerOptions);
 			}
 			catch (JsonException)
 			{

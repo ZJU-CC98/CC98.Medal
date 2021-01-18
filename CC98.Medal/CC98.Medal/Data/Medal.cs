@@ -25,8 +25,8 @@ namespace CC98.Medal.Data
 		/// <summary>
 		/// 获取或设置该勋章的名称。
 		/// </summary>
-		[Required]
-		[StringLength(100)]
+		[Required(ErrorMessage = "必须输入勋章名称。")]
+		[StringLength(100, ErrorMessage = "勋章名称长度不能超过 {0} 个字符。")]
 		[Display(Name = "勋章名称")]
 		public string Name { get; set; } = null!;
 
@@ -37,17 +37,23 @@ namespace CC98.Medal.Data
 		public string? Description { get; set; }
 
 		/// <summary>
+		/// 获取或设置该勋章的备注。
+		/// </summary>
+		[Display(Name = "勋章备注")]
+		public string? Remark { get; set; }
+
+		/// <summary>
 		/// 获取或设置该勋章对应的图像的路径。
 		/// </summary>
-		[Required]
-		[DataType(DataType.ImageUrl)]
+		[Required(ErrorMessage = "必须提供勋章的图片地址。")]
+		[DataType(DataType.ImageUrl, ErrorMessage = "勋章图片地址格式无效。")]
 		[Display(Name = "图片地址")]
 		public string ImageUri { get; set; } = null!;
 
 		/// <summary>
 		/// 获取或设置单击该勋章时需要跳转的地址。
 		/// </summary>
-		[DataType(DataType.Url)]
+		[DataType(DataType.Url, ErrorMessage = "勋章链接地址无效。")]
 		[Display(Name = "链接地址")]
 		public string? LinkUri { get; set; }
 

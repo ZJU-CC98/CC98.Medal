@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model MedalAndOwnInfo
+@inject IViewLocalizer ViewLocalizer
+
+<div class="ui fluid card">
+
+	@if (Model.Ownership != null)
+	{
+		if (Model.Ownership.ExpireTime == null)
+		{
+			<span class="ui right corner label">
+				<i class="blue check icon" title="你已经永久拥有这枚勋章。"></i>
+			</span>
+		}
+		else
+		{
+			<span class="ui right corner label">
+				<i class="green check icon" title="@ViewLocalizer["你目前拥有这枚勋章，到期日期为 {0:D}", Model.Ownership.ExpireTime]"></i>
+			</span>
+		}
+	}
+
+<div class="content">
+	<img class="ui left floated mini image" src="@Url.Content(Model.Medal.ImageUri)" alt="勋章图案" />
+	<a class="header" asp-controller="Medal" asp-action="Detail" asp-route-id="@Model.Medal.Id">@Model.Medal.Name</a>
+	
+	<div class="meta">
+		@if (Model.Medal.CanBuy)
+		{
+			<span class="blue text">可购买</span>
+		}
+		@if (Model.Medal.CanApply)
+		{
+			<span class="green text">可申请</span>
+		}
+		
+		@if (!Model.Medal.CanBuy && !Model.Medal.CanApply)
+		{
+			<span class="red text">无法自主获得</span>
+		}
+
+	</div>
+
+	<div class="description">@Model.Medal.Description</div>
+</div>
+
+</div>
+
+
+
+@*<div class="ui bottom attached buttons">
+
+		<button class="ui basic primary button" disabled="@(!Model.Medal.CanBuy)">购买</button>
+		<button class="ui basic positive button" disabled="@(!Model.Medal.CanApply)">申请</button>
+
+	</div>*@
+

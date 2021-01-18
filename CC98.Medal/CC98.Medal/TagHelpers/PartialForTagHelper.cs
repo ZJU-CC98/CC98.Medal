@@ -14,7 +14,9 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 
 namespace CC98.Medal.TagHelpers
 {
-	// You may need to install the Microsoft.AspNetCore.Razor.Runtime package into your project
+	/// <summary>
+	/// 为带有 for 的 partial 标签提供 ModelName 数据。
+	/// </summary>
 	[HtmlTargetElement("partial", Attributes = "for", TagStructure = TagStructure.WithoutEndTag)]
 	public class PartialForTagHelper : TagHelper
 	{

@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace CC98.Medal.TagHelpers
 {
-	// You may need to install the Microsoft.AspNetCore.Razor.Runtime package into your project
 	/// <summary>
 	/// 当控件关联到验证错误时，将控件转换为错误样式。
 	/// </summary>
@@ -29,6 +28,7 @@ namespace CC98.Medal.TagHelpers
 			var key = ValidationFor.Name;
 			var keyModelState = ViewContext.ModelState[key];
 
+			// ReSharper disable once ConditionIsAlwaysTrueOrFalse
 			var hasError = keyModelState != null && keyModelState.Errors.Any();
 
 			if (hasError)

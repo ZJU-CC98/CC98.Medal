@@ -4,14 +4,21 @@
 <div class="field" asp-validation-style-for="Name">
 	<label asp-for="Name"></label>
 	<input type="text" asp-for="Name" />
+	<span asp-validation-for="Name"></span>
 	<small class="helper">勋章名称，将会显示在勋章的展示界面。</small>
-	<span class="text-danger" asp-validation-for="Name"></span>
 </div>
 
 <div class="field" asp-validation-style-for="Description">
 	<label asp-for="Description"></label>
 	<textarea asp-for="Description" rows="3"></textarea>
 	<small class="helper">勋章的描述，将会显示在勋章的展示页面。</small>
+	<span class="text-danger" asp-validation-for="Description"></span>
+</div>
+
+<div class="field" asp-validation-style-for="Description">
+	<label asp-for="Remark"></label>
+	<textarea asp-for="Remark" rows="3"></textarea>
+	<small class="helper">勋章的备注。备注只会显示在勋章详情页面，可用于向用户补充说明和勋章内容本身无关的额外信息（如获得方式等）。</small>
 	<span class="text-danger" asp-validation-for="Description"></span>
 </div>
 
@@ -25,7 +32,10 @@
 
 <div class="field" asp-validation-style-for="ImageUri">
 	<label asp-for="ImageUri"></label>
-	<input type="url" asp-for="ImageUri" />
+	<div class="ui action input">
+		<input id="image-uri-input" type="url" asp-for="ImageUri" />
+		<button type="button" class="ui button" onclick="onUploadFile(this)" data-success-target="#image-uri-input">上传图片</button>
+	</div>
 	<small class="helper">勋章的图案。</small>
 	<span class="text-danger" asp-validation-for="ImageUri"></span>
 </div>
@@ -42,7 +52,7 @@
 
 <div class="field">
 	<label asp-for="State"></label>
-	<vc:enum-selector asp-for="State" />
+	<vc:enum-selector asp-aspFor="State" />
 	<small class="helper">勋章的状态。这将影响用户是否能看到和展示这个勋章。</small>
 	<span class="text-danger" asp-validation-for="State"></span>
 </div>

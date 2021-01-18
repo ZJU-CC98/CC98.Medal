@@ -1,38 +1,66 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Sakura.AspNetCore
+@using Sakura.AspNetCore.Mvc
 @model MedalCategory
 @inject IViewLocalizer ViewLocalizer
 @{
+	var medals = (IPagedList<Medal>)ViewBag.Medals;
 	ViewBag.Title = ViewLocalizer["勋章分类详情 - {0}", Model.Name];
 }
 
 @if (Model.Parent != null)
 {
-	<small class="text-muted">隶属于 <a asp-controller="Category" asp-action="Detail" asp-route-id="@Model.Parent.Id">@Model.Parent.Name</a> 分类</small>
+	<div class="ui message">
+		<p>
+			这个分类隶属于 <a asp-controller="Category" asp-action="Detail" asp-route-id="@Model.Parent.Id">@Model.Parent.Name</a> 分类
+		</p>
+	</div>
 }
 
 @if (!string.IsNullOrEmpty(Model.Description))
 {
-	<p class="text-center">@Model.Description</p>
+	<p>@Model.Description</p>
 }
 else
 {
-	<p class="text-center text-muted">该分类没有描述</p>
+	<div class="ui message">
+		<p>该分类没有提供描述</p>
+	</div>
 }
 
-<hr />
-<h2 class="lead text-center">子类别</h2>
-<hr />
+
+<h2 class="ui dividing header">子类别</h2>
 
 @if (Model.Children.Any())
 {
+	<div class="ui info message">
+		<p>子类别按照排序值从小到大进行排序。</p>
+	</div>
 	<partial name="_CategoryListTablePartial" model="@Model.Children" />
 }
 else
 {
-	<p class="text-center text-muted">该勋章类别没有任何子类别</p>
-	<a asp-controller="Category" asp-action="Create" class="btn btn-primary">添加子类别</a>
+	<div class="ui message">
+		<p>该勋章类别没有任何子类别</p>
+	</div>
 }
 
-<hr />
-<h2 class="lead text-center">勋章列表</h2>
-<hr />
+<a asp-controller="Category" asp-action="Create" class="ui primary button">添加子类别</a>
+
+
+<h2 class="ui dividing header">勋章列表</h2>
+
+@if (medals.Any())
+{
+	<div class="ui info message">
+		<p>此处列出了这个分类下的所有勋章，包括对普通用户不可见的项目，但不包含子分类的勋章。</p>
+	</div>
+	<partial name="_ManageMedalList" model="@medals" />
+	<pager source="@medals" item-default-link="@PagerItemLinkGenerators.QueryName("medalPage")" />
+}
+else
+{
+	<div class="ui message">
+		<p>该勋章类别（不包括下没有勋章</p>
+	</div>
+}

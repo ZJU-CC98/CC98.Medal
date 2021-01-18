@@ -4,3 +4,74 @@ for details on configuring this project to bundle and minify static web assets. 
 body main {
 	margin-top: 4rem;
 }
+
+.field-validation-error {
+}
+
+.field-validation-valid {
+	display: none !important;
+}
+
+.field .description {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	font-size: small;
+}
+
+
+.field.error .description {
+	color: #9F3A38;
+}
+
+.pushable > .ui.fixed.menu {
+	padding-left: 260px;
+}
+
+.pushable > .ui.main.container {
+	padding-left: 260px;
+	padding-top: 40px;
+}
+
+.text.white {
+	color: #FFFFFF;
+}
+
+.text.grey {
+	color: #CCCCCC;
+}
+
+.text.black {
+	color: #1B1C1D;
+}
+
+.text.yellow {
+	color: #F2C61F;
+}
+
+.text.teal {
+	color: #00B5AD;
+}
+
+.text.red {
+	color: #D95C5C;
+}
+
+.text.purple {
+	color: #564F8A;
+}
+
+.text.pink {
+	color: #D9499A;
+}
+
+.text.orange {
+	color: #E07B53;
+}
+
+.text.green {
+	color: #5BBD72;
+}
+
+.text.blue {
+	color: #3B83C0;
+}

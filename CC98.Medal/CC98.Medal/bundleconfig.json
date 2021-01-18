@@ -10,5 +10,11 @@
     "inputFiles": [
       "wwwroot/js/site.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/mashead.min.css",
+    "inputFiles": [
+      "wwwroot/css/mashead.css"
+    ]
   }
 ]

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CC98.Medal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CC98.Medal.Controllers
 {
@@ -23,15 +24,22 @@ namespace CC98.Medal.Controllers
 			return View();
 		}
 
-		public IActionResult Privacy()
-		{
-			return View();
-		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		}
+
+		/// <summary>
+		/// 显示系统设置页面。
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		[Authorize(Policies.Admin)]
+		public IActionResult System()
+		{
+			return View();
 		}
 	}
 }

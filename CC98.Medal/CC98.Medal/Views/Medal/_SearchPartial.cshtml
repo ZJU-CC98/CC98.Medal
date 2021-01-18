@@ -1,0 +1,22 @@
+﻿@model MedalSearchModel
+
+<div class="ui secondary menu">
+	<a class="item" id="toggle-sidebar-link">
+		<i class="sidebar icon"></i> 显示分类
+	</a>
+
+	<div class="item">拥有状态</div>
+	<vc:enum-selector asp-for="OwnState" empty-text="任意" show-description="false" />
+
+	<div class="item">获得途径</div>
+	<vc:enum-selector asp-for="ObtainType" empty-text="全部" show-description="false" />
+
+	<div class="right menu">
+		<div class="item">名称</div>
+		<div class="ui icon input">
+			<input type="search" placeholder="输入要搜索的勋章名称" />
+			<i class="search link icon"></i>
+		</div>
+		<a class="item">搜索</a>
+	</div>
+</div>

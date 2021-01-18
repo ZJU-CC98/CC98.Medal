@@ -12,7 +12,7 @@
 			<partial name="_EditPartial" />
 
 			<div class="text-danger" asp-validation-summary="ModelOnly"></div>
-			
+
 			<div class="ui divider"></div>
 
 			<button type="submit" class="btn btn-primary">创建勋章</button>
@@ -26,5 +26,8 @@
 
 @section Scripts
 {
+	<partial name="_ValidationScriptsPartial" />
 	<partial name="_VuePartial" />
+	<partial name="_AjaxPartial" />
+	<partial name="_UploadPartial" />
 }

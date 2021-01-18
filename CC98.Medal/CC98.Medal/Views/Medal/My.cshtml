@@ -1,0 +1,37 @@
+﻿@model Sakura.AspNetCore.IPagedList<UserMedalOwnership>
+@{
+	ViewBag.Title = "我的勋章一览";
+}
+
+@if (Model.Any())
+{
+	<div class="ui info message">
+		<p>这个列表以显示优先级顺序排列。当你在论坛或其它地方展示勋章时，也将保持和这里相同的优先级。不同的展示场所可显示的勋章数量可能有所不同，请注意合理调整自己的勋章排列顺序。</p>
+	</div>
+
+	<div class="ui four doubling cards">
+
+		@foreach (var item in Model)
+		{
+			var ownInfo = new MedalAndOwnInfo
+			{
+				Medal = item.Medal,
+				Ownership = item
+			};
+
+			<partial name="_MedalItem" model="@ownInfo" />
+		}
+	</div>
+
+	<div class="ui divider"></div>
+	<pager />
+}
+else
+{
+	<div class="ui message">
+		<div class="header">
+			&#x1F622; 列表空空如也
+		</div>
+		<p>你现在还没有获得任何勋章，赶快去 <a asp-controller="Medal" asp-action="Index">勋章列表</a> 寻找你喜欢的勋章吧！</p>
+	</div>
+}

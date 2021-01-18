@@ -1,14 +1,27 @@
 ﻿@model EnumSelectorViewModel
 
-<div class="ui fluid selection dropdown">
+<div class="ui selection dropdown">
 	<input type="hidden" name="@Model.AspFor.Name" value="@Model.AspFor.Model" />
+	<i class="dropdown icon"></i>
 	<span class="text"></span>
 	<div class="menu">
+
+		@if (Model.EmptyText != null)
+		{
+			<div class="item" data-value="">
+				<span class="text">@Model.EmptyText</span>
+			</div>
+		}
+
 		@foreach (var item in Model.Items)
 		{
 			<div class="item" data-value="@item.Value">
 				<span class="text">@item.Name</span>
-				<span class="description">@item.Description</span>
+				
+				@if (Model.ShowDescription)
+				{
+					<span class="description">@item.Description</span>
+				}
 			</div>
 		}
 	</div>

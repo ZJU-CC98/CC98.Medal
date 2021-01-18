@@ -2,47 +2,98 @@
 @model Medal
 @inject IViewLocalizer ViewLocalizer
 @{
-	
+
 	ViewBag.Title = ViewLocalizer["勋章详情 - {0}", Model.Name];
 }
 
-<div class="text-center">
-	<img style="max-width: 240px; max-height: 240px;" class="img-thumbnail text-center" src="@Url.Content(Model.ImageUri)" alt="勋章图案" />
+<div class="ui center aligned basic segment">
+	<img class="mini image" src="@Url.Content(Model.ImageUri)" alt="勋章图案" />
 	<p class="text-break text-wrap">@Model.Description</p>
-	<hr />
 </div>
 
-<h2 class="text-center lead">获得这枚勋章</h2>
-<hr />
+<div class="ui divider"></div>
+
+<h2 class="ui dividing header">获得这枚勋章</h2>
+
 @if (Model.CanBuy && Model.BuySettings.Any())
 {
-	<div class="alert alert-info">你可以通过支付一定的财富值获得这枚勋章。</div>
 
-	<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center">
+	<div class="ui info message">你可以通过支付一定的财富值获得这枚勋章。</div>
+
+	<div class="ui cards">
 		@foreach (var item in Model.BuySettings)
 		{
-			<div class="col mb-3">
-				<div class="card text-center">
-					<div class="card-body">
-						<div class="card-text">
-							@if (item.ExpireDays != null)
-							{
-								<strong>@ViewLocalizer["{0} 天", item.ExpireDays.Value]</strong>
-							}
-							else
-							{
-								<strong>永久</strong>
-							}
-							<hr />
-							<div>@ViewLocalizer["{0} 财富值", item.Price]</div>
-						</div>
+			<a class="card" onclick="showByModel(this);" data-expire-days="@item.ExpireDays" data-price="@item.Price">
+				<div class="content">
+
+					<div class="header">
+						@if (item.ExpireDays != null)
+						{
+							<strong>@ViewLocalizer["{0} 天有效", item.ExpireDays.Value]</strong>
+						}
+						else
+						{
+							<strong>永久有效</strong>
+						}
 					</div>
-					<div class="card-footer">
-						<button type="button" class="btn btn-primary">立即购买</button>
+
+					<div class="meta">
+						<div>@ViewLocalizer["{0} 财富值", item.Price]</div>
 					</div>
 				</div>
-			</div>
+			</a>
 		}
 
 	</div>
+
+
+	<div id="buy-modal" class="ui tiny modal">
+
+		<i class="close icon"></i>
+		<div class="header">购买勋章</div>
+		<div class="content">
+			<p>
+				你即将花费 <strong id="price-text"></strong> 财富值购买勋章 <strong>@Model.Name</strong>，有效期为 <strong id="expire-days-text"></strong>。
+			</p>
+			<p>
+				请注意，已经购买的勋章不能退货。勋章的有效期以自然日为单位，购买当日计入第一天使用期。如果你现在已经拥有了这枚勋章，再次购买将延长其有效期（向后延伸购买的时长）。
+			</p>
+			<p>如果你要继续操作，请单击 <q>立即购买</q>按钮。否则请单击 <q>取消</q>按钮，或关闭对话框。</p>
+		</div>
+		<div class="actions">
+			<button type="button" class="ui positive button" onclick="$('#buy-form').submit();">立即购买</button>
+			<button type="button" class="ui cancel button">取消</button>
+		</div>
+
+	</div>
+
+
+	<form id="buy-form" method="post" asp-controller="Medal" asp-action="Buy" asp-route-id="@Model.Id" asp-route-returnUrl="@Url.Action()" asp-antiforgery="true">
+		<input type="hidden" name="@nameof(MedalBuySetting.ExpireDays)" />
+		<input type="hidden" name="@nameof(MedalBuySetting.Price)" />
+	</form>
+
+
+
+
+}
+
+@section Scripts
+{
+	<script>
+		function showByModel(ele) {
+
+			const row = $(ele);
+			const price = $(row).data('price');
+			const expireDays = $(row).data('expire-days');
+
+			$('input[name="@nameof(MedalBuySetting.ExpireDays)"]').val(expireDays);
+			$('input[name="@nameof(MedalBuySetting.Price)"]').val(price);
+
+			$('#price-text').text(price);
+			$('#expire-days-text').text(expireDays ? String.format('{0} 天', expireDays) : '永久');
+
+			$('#buy-modal').modal('show');
+		}
+	</script>
 }

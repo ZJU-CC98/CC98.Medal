@@ -1,0 +1,20 @@
+﻿@model IEnumerable<MedalCategory>
+@{
+	var selectedCategoryId = (int?)ViewBag.SelectedCategoryId;
+	var linkGenerator = (Func<MedalCategory, string>)ViewBag.LinkGenerator;
+}
+
+@foreach (var item in Model)
+{
+	<a class="item" title="@item.Description" href="@linkGenerator(item)" asp-conditional-class-active="@(item.Id == selectedCategoryId)">
+
+		<span>@item.Name</span>
+
+		@if (item.Children.Any())
+		{
+			<div class="menu">
+				<partial name="MedalCategoryTreeTemplate" model="@item.Children" />
+			</div>
+		}
+	</a>
+}

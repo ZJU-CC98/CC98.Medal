@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CC98.Medal.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
 using Sakura.AspNetCore;
@@ -22,15 +23,34 @@ namespace CC98.Medal.Controllers
 		/// 初始化 <see cref="CategoryController"/> 的新实例。
 		/// </summary>
 		/// <param name="dbContext">数据库上下文对象。</param>
-		public CategoryController(CC98MedalDbContext dbContext)
+		/// <param name="messageAccessor">消息访问器对象。</param>
+		public CategoryController(CC98MedalDbContext dbContext, IOperationMessageAccessor messageAccessor, IHtmlLocalizer<SharedResources> sharedLocalizer, IHtmlLocalizer<CategoryController> localizer)
 		{
 			DbContext = dbContext;
+			MessageAccessor = messageAccessor;
+			SharedLocalizer = sharedLocalizer;
+			Localizer = localizer;
 		}
 
 		/// <summary>
 		/// 数据库上下文对象。
 		/// </summary>
 		private CC98MedalDbContext DbContext { get; }
+
+		/// <summary>
+		/// 消息访问器对象。
+		/// </summary>
+		private IOperationMessageAccessor MessageAccessor { get; }
+
+		/// <summary>
+		/// 共享本地化资源。
+		/// </summary>
+		public IHtmlLocalizer<SharedResources> SharedLocalizer { get; }
+
+		/// <summary>
+		/// 本地化资源。
+		/// </summary>
+		public IHtmlLocalizer<CategoryController> Localizer { get; }
 
 		/// <summary>
 		/// 列出所有顶级分类。
@@ -53,22 +73,31 @@ namespace CC98.Medal.Controllers
 		/// 列出单个分类的详细信息。
 		/// </summary>
 		/// <param name="id">分类的标识。</param>
+		/// <param name="medalPage">类别相关勋章的标识。</param>
 		/// <param name="cancellationToken">用于取消操作的令牌。</param>
 		/// <returns>操作结果。</returns>
 		[HttpGet]
-		public async Task<IActionResult> Detail(int id, CancellationToken cancellationToken = default)
+		public async Task<IActionResult> Detail(int id, int medalPage = 1, CancellationToken cancellationToken = default)
 		{
 			var item =
 				await (from i in DbContext.MedalCategories
 					   where i.Id == id
 					   select i)
 					.Include(p => p.Parent)
+					.Include(p => p.Children)
 					.SingleOrDefaultAsync(cancellationToken);
 
 			if (item == null)
 			{
 				return NotFound();
 			}
+
+			var medals = from i in DbContext.Medals
+						 where i.CategoryId == id
+						 orderby i.Name
+						 select i;
+
+			ViewBag.Medals = await medals.ToPagedListAsync(10, medalPage, cancellationToken);
 
 			return View(item);
 		}
@@ -84,6 +113,35 @@ namespace CC98.Medal.Controllers
 			{
 				ParentId = parentId
 			};
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// 显示创建页面。
+		/// </summary>
+		/// <returns>操作结果。</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create(MedalCategory model, CancellationToken cancellationToken = default)
+		{
+			if (ModelState.IsValid)
+			{
+				DbContext.MedalCategories.Add(model);
+
+				try
+				{
+					await DbContext.SaveChangesAsync(cancellationToken);
+					var url = Url.Action("Detail", "Category", new { id = model.Id });
+
+					MessageAccessor.Add(OperationMessageLevel.Success, SharedLocalizer["操作成功"],
+						Localizer["你已经添加了勋章类别 <a href=\"{1}\">{0}</a>。", model.Name, url]);
+				}
+				catch (DbUpdateException ex)
+				{
+					ModelState.AddModelError(string.Empty, ex.GetBaseMessage());
+				}
+			}
 
 			return View(model);
 		}

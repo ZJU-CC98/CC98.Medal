@@ -1,0 +1,29 @@
+﻿<form id="file-upload-form" asp-controller="File" asp-action="Upload" method="post" enctype="multipart/form-data" data-ajax="true" data-ajax-success="onUploadSuccess" data-ajax-failure="onUploadFailure">
+	<input class="hidden" id="file-upload-input" type="file" name="file" onchange="onFileSelected()" />
+</form>
+
+<script>
+
+	var successTarget, failureTarget;
+
+	function onUploadFile(ele) {
+
+		successTarget = $(ele).data('success-target');
+		failureTarget = $(ele).data('failure-target');
+
+		$('#file-upload-input').click();
+	}
+
+	function onFileSelected() {
+		$('#file-upload-form').submit();
+	}
+
+	function onUploadSuccess(result) {
+		$(successTarget).val(result);
+	}
+
+	function onUploadFailure(error, xhr) {
+		$(failureTarget).text(xhr.responseText);
+	}
+
+</script>

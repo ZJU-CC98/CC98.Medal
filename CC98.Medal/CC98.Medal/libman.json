@@ -33,6 +33,10 @@
 		{
 			"library": "vue@3.0.2",
 			"destination": "wwwroot/lib/vue/"
+		},
+		{
+			"library": "jquery-ajax-unobtrusive@3.2.6",
+			"destination": "wwwroot/lib/jquery-ajax-unobtrusive/"
 		}
 	]
 }

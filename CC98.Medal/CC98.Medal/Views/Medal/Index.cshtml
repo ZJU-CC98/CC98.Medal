@@ -1,5 +1,9 @@
-﻿@model Sakura.AspNetCore.IPagedList<Medal>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Sakura.AspNetCore.IPagedList<MedalAndOwnInfo>
+@inject IViewLocalizer ViewLocalizer
+
 @{
+	ViewBag.Title = "勋章一览";
 	var categoryId = (int?)ViewBag.CategoryId;
 }
 
@@ -8,30 +12,84 @@
 	string GenerateCategoryLink(MedalCategory item) => Url.Action("Index", "Medal", new { categoryId = item.Id });
 }
 
-<div class="row">
-	<div class="col-3">
-		<vc:medal-category-list selected-category-id="@categoryId" link-generator="@GenerateCategoryLink" />
-	</div>
-	<div class="col-9">
 
-		<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4">
-			@foreach (var item in Model)
+<partial name="_SearchPartial" model="new MedalSearchModel()" />
+
+<div id="category-sidebar-container" class="ui pushable">
+
+	<div class="ui sidebar visible vertical overlay menu">
+		<vc:medal-category-list selected-category-id="@categoryId" link-generator="@GenerateCategoryLink" />
+
+	</div>
+	<div class="pusher">
+
+		<div class="ui basic segment">
+
+			@if (Model.Any())
 			{
-				<div class="col mb-3">
-					<div class="card h-100">
-						<div class="card-body">
-							<div class="media">
-								<img class="" src="@Url.Content(item.ImageUri)" alt="勋章图案" style="max-width: 64px; max-height: 64px;" />
-								<div class="media-body">
-									<h5 class="mt-0">@item.Name</h5>
-									<p>@item.Description</p>
-								</div>
-							</div>
-						</div>
-					</div>
+
+
+				<div class="ui info message">
+					<p>这里只显示给定分类直属的勋章。如果要查看子类别中的勋章列表，请在左侧单击子类别的名称。</p>
+				</div>
+
+				<div class="ui four doubling cards">
+					@foreach (var item in Model)
+					{
+						<partial name="_MedalItem" model="@item" />
+					}
+
+				</div>
+
+				<div class="ui divider"></div>
+				<pager />
+
+			}
+			else
+			{
+				<div class="ui message">
+					<p>目前这里还没有可以显示的任何勋章。注意这里不会显示子类别的勋章，如果要查看它们，请在左侧切换到其他类别。</p>
 				</div>
 			}
+
+
 		</div>
 
 	</div>
 </div>
+
+
+
+
+<div id="already-owned-modal" class="ui tiny modal">
+	<i class="close icon"></i>
+	<div class="header">好消息</div>
+	<div class="content">
+		<p>
+			你已经拥有了这枚勋章！
+		</p>
+	</div>
+	<div class="actions">
+		<button type="submit" class="ui positive button">真是可喜可贺</button>
+	</div>
+</div>
+
+@section Scripts
+								{
+	<script>
+
+		function showAlreadyOwnedDialog() {
+			$('#already-owned-modal').modal('show');
+		}
+
+	</script>
+
+	@if (categoryId != null)
+	{
+		<script>
+			$(function () {
+				$('.ui.sidebar').sidebar('show');
+			});
+		</script>
+	}
+}

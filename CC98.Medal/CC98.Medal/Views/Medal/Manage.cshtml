@@ -7,50 +7,13 @@
 {
 	<div class="ui info message">下表列出了系统中的所有勋章，包括对普通用户不可见的项目。</div>
 
-	<table class="ui celled definition table">
-		<thead>
-			<tr>
-				<th>名称</th>
-				<th>类别</th>
-				<th>状态</th>
-				<th>操作</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<td><a asp-controller="Medal" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a></td>
-					<td>
-						@if (item.Category != null)
-						{
-							<span>@item.Category.Name</span>
-						}
-						else
-						{
-							<span class="text-muted">未分类</span>
-						}
-					</td>
-					<td>
-						@item.State
-					</td>
-					<td>
-						<div class="ui mini buttons">
-							<a asp-controller="Medal" asp-action="Edit" asp-route-id="@item.Id" class="ui secondary button">编辑</a>
-							<button type="button" class="ui negative button">删除</button>
-						</div>
-					</td>
-				</tr>
-			}
-		</tbody>
-
-	</table>
+	<partial name="_ManageMedalList" />
+	<pager />
 }
 else
 {
 	<div class="text-center text-muted">目前系统中还没有任何勋章。</div>
 }
 
-<hr />
+<div class="ui divider"></div>
 <a asp-controller="Medal" asp-action="Create" class="ui primary button">添加勋章</a>

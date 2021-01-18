@@ -14,12 +14,12 @@ namespace CC98.Medal.Components
 {
 	public class EnumSelectorViewComponent : ViewComponent
 	{
-		public IViewComponentResult Invoke(ModelExpression aspFor)
+		public IViewComponentResult Invoke(ModelExpression aspFor, string? emptyText, bool showDescription)
 		{
 			var enumType = aspFor.Metadata.UnderlyingOrModelType;
 			var items = GetEnumItemNameAndDescription(enumType);
 
-			return View(new EnumSelectorViewModel { AspFor = aspFor, Items = items });
+			return View(new EnumSelectorViewModel { AspFor = aspFor, Items = items, EmptyText = emptyText, ShowDescription = showDescription });
 		}
 
 		private static IEnumerable<EnumSelectorItem> GetEnumItemNameAndDescription(Type enumType)
