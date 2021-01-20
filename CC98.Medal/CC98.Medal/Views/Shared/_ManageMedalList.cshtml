@@ -12,32 +12,91 @@
 
 	<tbody>
 		@foreach (var item in Model)
-	{
-		<tr>
-			<td><a asp-controller="Medal" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a></td>
-			<td>
-				@if (item.Category != null)
-				{
-				<a asp-controller="Category" asp-action="Detail" asp-route-id="@item.CategoryId">
-					@item.Category.Name
-				</a>
-				}
-				else
-				{
-				<span class="text-muted">未分类</span>
-				}
-			</td>
-			<td>
-				<enum-item-display-text text-source="Name" value="item.State" />
-			</td>
-			<td>
-				<div class="ui mini buttons">
-					<a asp-controller="Medal" asp-action="Edit" asp-route-id="@item.Id" class="ui secondary button">编辑</a>
-					<button type="button" class="ui negative button">删除</button>
-				</div>
-			</td>
-		</tr>
-	}
+		{
+			<tr data-id="@item.Id" data-name="@item.Name">
+				<td><a asp-controller="Medal" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a></td>
+				<td>
+					@if (item.Category != null)
+					{
+						<a asp-controller="Category" asp-action="Detail" asp-route-id="@item.CategoryId">
+							@item.Category.Name
+						</a>
+					}
+					else
+					{
+						<span class="text-muted">未分类</span>
+					}
+				</td>
+				<td>
+					<enum-item-display-text text-source="Name" value="item.State" />
+				</td>
+				<td>
+					<div class="ui mini buttons">
+						<a asp-controller="Medal" asp-action="Edit" asp-route-id="@item.Id" class="ui secondary button">编辑</a>
+						<button type="button" class="ui negative button" onclick="onDelete(this);">删除</button>
+					</div>
+				</td>
+			</tr>
+		}
 	</tbody>
 
 </table>
+
+
+
+
+<form asp-controller="Medal" asp-action="Delete" method="post" asp-antiforgery="true" asp-route-returnUrl="@Url.Action()" id="delete-medal-modal" class="ui small modal">
+
+	<input type="hidden" name="id" id="delete-medal-id" />
+
+	<i class="close icon"></i>
+	<div class="header">
+		<i class="warning icon"></i> 删除勋章警告
+	</div>
+	<div class="content">
+
+		<p>你确定要删除勋章 <strong id="delete-medal-name"></strong> 吗？这个操作无法撤销。</p>
+		<div class="ui info message">提示：你也可以考虑使用<q>编辑</q>功能修改勋章的信息，将其直接替换为新勋章。</div>
+
+		<div class="ui warning message">
+			删除勋章时将同时删除所有人的拥有记录，且不会退还购买费用。因此，删除操作通常仅用于测试目的。如果你只是希望将这枚勋章不再被用户使用，则可将其设置为<q>禁用</q>状态。被禁用的勋章不会显示在一览中，也无法在用户个人勋章列表中找到，大部分时候，这个操作可以完全替代删除效果。
+		</div>
+
+
+
+		<div class="ui divider"></div>
+
+		<p>如果你确定希望删除勋章，请单击下面的<q>删除勋章</q>按钮。如果你需要已经有人拥有的勋章，请联系系统管理员。</p>
+	</div>
+	<div class="actions">
+
+		<button class="ui red button" type="submit">
+			删除勋章
+		</button>
+		<div class="ui secondary button">
+			取消
+		</div>
+
+	</div>
+
+</form>
+
+
+
+<script>
+
+	function onDelete(ele) {
+
+		var row = $(ele).closest('tr');
+		var id = $(row).data('id');
+		var name = $(row).data('name');
+
+
+		$('#delete-medal-id').val(id);
+		$('#delete-medal-name').text(name);
+
+		$('#delete-medal-modal').modal('show');
+
+	}
+
+</script>

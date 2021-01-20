@@ -12,7 +12,7 @@
 	<tbody>
 		@foreach (var item in Model)
 		{
-			<tr>
+			<tr data-id="@item.Id" data-name="@item.Name">
 				<td>
 					<a asp-controller="Category" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a>
 				</td>
@@ -37,3 +37,56 @@
 		}
 	</tbody>
 </table>
+
+<form asp-controller="Category" asp-action="Delete" method="post" asp-antiforgery="true" asp-route-returnUrl="@Url.Action()" id="delete-category-modal" class="ui small modal">
+
+	<input type="hidden" name="id" id="delete-category-id" />
+
+	<i class="close icon"></i>
+	<div class="header">
+		<i class="warning icon"></i> 删除分类警告
+	</div>
+	<div class="content">
+
+		<p>你确定要分类勋章 <strong id="delete-category-name"></strong> 吗？这个操作无法撤销。</p>
+
+		<div class="ui warning message">
+			删除分类后，这个分类中目前包含的所有勋章都将被自动设定为<q>未分类</q>状态，而原本在此分类中的子分类也将自动变成顶级分类（即不再属于其它分类）。你可能需要手动重新调整这些勋章和子分类的所属位置，以避免展示时发生混乱。
+		</div>
+
+		<div class="ui divider"></div>
+		<p>如果你确定希望删除勋章，请单击下面的<q>删除勋章</q>按钮。如果你需要已经有人拥有的勋章，请联系系统管理员。</p>
+	</div>
+	<div class="actions">
+
+		<button class="ui red button" type="submit">
+			删除勋章
+		</button>
+		<div class="ui secondary button">
+			取消
+		</div>
+
+	</div>
+
+</form>
+
+
+
+<script>
+
+	function onDelete(ele) {
+
+		var row = $(ele).closest('tr');
+		var id = $(row).data('id');
+		var name = $(row).data('name');
+
+
+
+		$('#delete-category-id').val(id);
+		$('#delete-category-name').text(name);
+
+		$('#delete-category-modal').modal('show');
+
+	}
+
+</script>

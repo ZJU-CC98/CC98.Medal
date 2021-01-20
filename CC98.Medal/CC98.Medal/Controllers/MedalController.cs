@@ -228,6 +228,45 @@ namespace CC98.Medal.Controllers
 		}
 
 		/// <summary>
+		/// 执行删除操作。
+		/// </summary>
+		/// <param name="id">要删除的勋章的标识。</param>
+		/// <param name="returnUrl">返回的页面地址。</param>
+		/// <param name="cancellationToken">取消操作的令牌。</param>
+		/// <returns>操作结果。</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Authorize(Policies.Edit)]
+		public async Task<IActionResult> Delete(int id, string returnUrl, CancellationToken cancellationToken)
+		{
+			var item = await DbContext.Medals.FindAsync(new object[] { id }, cancellationToken);
+
+			if (item == null)
+			{
+				MessageAccessor.Add(OperationMessageLevel.Error, SharedLocalizer["操作失败"],
+					Localizer["指定的勋章不存在，或已经被删除。"]);
+			}
+			else
+			{
+				DbContext.Medals.Remove(item);
+
+				try
+				{
+					await DbContext.SaveChangesAsync(cancellationToken);
+					MessageAccessor.Add(OperationMessageLevel.Success, SharedLocalizer["操作成功"],
+						Localizer["你已经删除了勋章 <strong>{0}</strong>。", item.Name]);
+
+				}
+				catch (DbUpdateException ex)
+				{
+					MessageAccessor.Add(OperationMessageLevel.Error, SharedLocalizer["操作失败"], Localizer["操作中发生错误：{0}", ex.GetBaseMessage()]);
+				}
+			}
+
+			return this.TryReturn(returnUrl);
+		}
+
+		/// <summary>
 		/// 显示勋章管理页面。
 		/// </summary>
 		/// <param name="page">页码。</param>

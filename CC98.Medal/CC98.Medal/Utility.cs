@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Mvc;
+
 namespace CC98.Medal
 {
 	/// <summary>
@@ -46,6 +48,22 @@ namespace CC98.Medal
 			}
 
 			return sb.ToString();
+		}
+
+		/// <summary>
+		/// 尝试返回给定的地址。如果地址非法，则返回主页。
+		/// </summary>
+		/// <param name="controller">控制器对象。</param>
+		/// <param name="returnUrl">返回地址。</param>
+		/// <returns>操作结果。</returns>
+		public static IActionResult TryReturn(this ControllerBase controller, string returnUrl)
+		{
+			if (!controller.Url.IsLocalUrl(returnUrl))
+			{
+				returnUrl = controller.Url.Action("Index", "Home");
+			}
+
+			return controller.Redirect(returnUrl);
 		}
 	}
 }
